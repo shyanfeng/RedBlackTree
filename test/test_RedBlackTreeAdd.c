@@ -5,6 +5,7 @@
 #include "RedBlackTree.h"
 #include "InitNode.h"
 #include "CustomAssertion.h"
+#include "ErrorCode.h"
 #include "CException.h"
 
 Node node1, node3, node5, node6, node7, node8, node10, node12, node13, node15;
@@ -90,8 +91,82 @@ void test_addRedBlackTree_add_15_to_the_right_tree_with_root_10(void){
 	
 	TEST_ASSERT_EQUAL_PTR(root, &node10);
 						// left right color node
-	TEST_ASSERT_EQUAL_NODE(&node5, NULL, 'b', root);
+	TEST_ASSERT_EQUAL_NODE(NULL, &node15, 'b', root);
 						// left right color node
 	TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node15);
 
+}
+
+/**
+  *				 root
+  *				  /		    		  root
+  *				 v		    	  	  /
+  *				10(b)	add 1    	 v
+  *			    /		------>	   	5(b)
+  *			   5(r)	         		/  \  
+  *			 		    		  1(r) 10(r)   
+  *			                       
+  *
+  */
+void test_addRedBlackTree_add_1_to_the_tree_rotate_right_with_5_10_nodes(void){
+	setNode(&node1, NULL, NULL, 'r');
+	setNode(&node5, NULL, NULL, 'r');
+	setNode(&node10, &node5, NULL, 'b');
+	Node *root = &node10;
+	
+	addRedBlackTree(&root, &node1);
+	
+	TEST_ASSERT_EQUAL_PTR(root, &node5);
+	TEST_ASSERT_EQUAL_NODE(&node1, &node10, 'b', root);
+	TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node1);
+	TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node10);
+
+}
+
+/**
+  *				 root
+  *				  /		    		  root
+  *				 v		    	  	  /
+  *				5(b)	add 15    	 v
+  *			      \		------>	   	10(b)
+  *			      10(r)	         	/  \  
+  *			 		    		  5(r) 15(r)   
+  *			                       
+  *
+  */
+void test_addRedBlackTree_add_15_to_the_tree_rotate_left_with_5_10_nodes(void){
+	setNode(&node15, NULL, NULL, 'r');
+	setNode(&node5, NULL, &node10, 'b');
+	setNode(&node10, NULL, NULL, 'r');
+	Node *root = &node5;
+	
+	addRedBlackTree(&root, &node15);
+	
+	TEST_ASSERT_EQUAL_PTR(root, &node10);
+	TEST_ASSERT_EQUAL_NODE(&node5, &node15, 'b', root);
+	TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node5);
+	TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node15);
+
+}
+
+/**
+  *				 root
+  *				  /		    		  
+  *				 v		    	  	  
+  *				10(b)	add 10    	 
+  *			     		------>	   	Error
+  *			    	    	      	            
+  *
+  */
+void test_addRedBlackTree_add_same_value_should_throw(void){
+	setNode(&node10, NULL, NULL, 'b');
+	setNode(&node10, NULL, NULL, 'b');
+	Node *root = &node10;
+	int e;
+	
+	Try{
+		addRedBlackTree(&root, &node10);
+	}Catch(e){
+		TEST_ASSERT_EQUAL(ERR_EQUIVALENT_NODE, e);
+	}	
 }
