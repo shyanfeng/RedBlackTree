@@ -26,11 +26,11 @@ void setUp(void){
 void tearDown(void){}
 
 /** Empty Case
-  *				 root
-  *				  /				        root
-  *				 v	  add 10  	  /
-  *				NULL  ------> 	 v
-  *								        10
+  *       root
+  *       /                 root
+  *       v       add 10     /
+  *      NULL    ------>    v
+  *                        10
   *
   */
 void test_addRedBlackTree_add_10_to_empty_tree(void){
@@ -45,13 +45,13 @@ void test_addRedBlackTree_add_10_to_empty_tree(void){
 }
 
 /** 2-node case
-  *				 root
-  *				  /		    		       root
-  *				 v		    	    	   /
-  *				10(b)	add 5     	  v
-  *			     		------>	   	10(b)
-  *			    	    	         /  
-  *			 		    		       5(r)   
+  *         root
+  *         /                 root
+  *         v                   /
+  *       10(b) add5           v
+  *             ------>       10(b)
+  *                           /  
+  *                         5(r)   
   *			                       
   *
   */
