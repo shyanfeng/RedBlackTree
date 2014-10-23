@@ -25,7 +25,7 @@ void setUp(void){
 
 void tearDown(void){}
 
-/**
+/** Empty Case
   *				 root
   *				  /				        root
   *				 v	  add 10  	  /
@@ -44,7 +44,7 @@ void test_addRedBlackTree_add_10_to_empty_tree(void){
 
 }
 
-/**
+/** 2-node case
   *				 root
   *				  /		    		       root
   *				 v		    	    	   /
@@ -68,7 +68,7 @@ void test_addRedBlackTree_add_5_to_the_left_tree_with_root_10(void){
 
 }
 
-/**
+/** 2-node case
   *				 root
   *				  /		    		      root
   *				 v		    	       	  /
@@ -92,7 +92,7 @@ void test_addRedBlackTree_add_15_to_the_right_tree_with_root_10(void){
 
 }
 
-/**
+/** 3-node case
   *				 root
   *				  /		    		     root
   *				 v		    	  	      /
@@ -104,7 +104,7 @@ void test_addRedBlackTree_add_15_to_the_right_tree_with_root_10(void){
   *
   */
 void test_addRedBlackTree_add_1_to_the_tree_rotate_right_with_5_10_nodes(void){
-	setNode(&node1, NULL, NULL, 'r');
+  setNode(&node1, NULL, NULL, 'r');
 	setNode(&node5, NULL, NULL, 'r');
 	setNode(&node10, &node5, NULL, 'b');
 	Node *root = &node10;
@@ -118,7 +118,7 @@ void test_addRedBlackTree_add_1_to_the_tree_rotate_right_with_5_10_nodes(void){
 
 }
 
-/**
+/** 3-node case
   *				 root
   *				  /		    		      root
   *				 v		    	  	      /
@@ -144,7 +144,7 @@ void test_addRedBlackTree_add_15_to_the_tree_rotate_left_with_5_10_nodes(void){
 
 }
 
-/**
+/** Error case
   *				 root
   *				  /		    		  
   *				 v		    	  	  
@@ -166,7 +166,7 @@ void test_addRedBlackTree_add_same_value_should_throw(void){
 	}	
 }
 
-/**
+/** 3-node case
   *				 root
   *				  /		    	          root
   *				 v		    	          /                   root
@@ -195,7 +195,7 @@ void test_addRedBlackTree_add_7_to_the_tree_rotate_left_right_with_5_10_nodes(vo
 	
 }
 
-/**
+/** 3-node case
   *				 root
   *				  /		    	          root
   *				 v		    	          /            
@@ -224,7 +224,7 @@ void test_addRedBlackTree_add_12_to_the_tree_with_5_10_nodes(void){
 	
 }
 
-/**
+/** 3-node case
   *				 root
   *				  /		    		      root
   *				 v		    	  	    /
@@ -250,7 +250,7 @@ void test_addRedBlackTree_add_12_to_the_tree_rotate_right_left_with_10_15_nodes(
 
 }
 
-/**
+/** 3-node case
   *				 root
   *				  /		    		      root
   *				 v		    	  	    /
