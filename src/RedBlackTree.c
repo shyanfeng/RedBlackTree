@@ -4,10 +4,9 @@
 #include "ErrorCode.h"
 #include "CException.h"
 
-
 void _addRedBlackTree(Node **rootPtr, Node *newNode){
 	Node *root = *rootPtr;
-	
+
 	if((*rootPtr) == NULL){
 		*rootPtr = newNode;
 		(*rootPtr)->color = 'r';
@@ -15,13 +14,13 @@ void _addRedBlackTree(Node **rootPtr, Node *newNode){
 	}else if((*rootPtr) == newNode){
 		Throw(ERR_EQUIVALENT_NODE);
 	}
-	
+
 	if(newNode->data < (*rootPtr)->data){
 		_addRedBlackTree(&(*rootPtr)->left, newNode);
 	}else if(newNode->data > (*rootPtr)->data){
 		_addRedBlackTree(&(*rootPtr)->right, newNode);
-	} 
-	
+	}
+
     // left rotate
 	if((*rootPtr)->left != NULL && (*rootPtr)->left->left != NULL){
 		if((*rootPtr)->left->color == 'r' && (*rootPtr)->left->left->color == 'r'){
@@ -29,7 +28,7 @@ void _addRedBlackTree(Node **rootPtr, Node *newNode){
 			(*rootPtr)->right->color = 'r';
 		}
 	}
-	
+
     //right rotate
 	if((*rootPtr)->right != NULL && (*rootPtr)->right->right != NULL){
 		if((*rootPtr)->right->color == 'r' && (*rootPtr)->right->right->color == 'r'){
@@ -37,7 +36,7 @@ void _addRedBlackTree(Node **rootPtr, Node *newNode){
 			(*rootPtr)->left->color = 'r';
 		}
 	}
-    
+
     //leftRight rotate
     if((*rootPtr)->left != NULL && (*rootPtr)->left->right != NULL){
 		if((*rootPtr)->left->color == 'r' && (*rootPtr)->left->right->color == 'r'){
@@ -45,7 +44,7 @@ void _addRedBlackTree(Node **rootPtr, Node *newNode){
 			(*rootPtr)->right->color = 'r';
 		}
 	}
-    
+
     //rightLeft rotate
     if((*rootPtr)->right != NULL && (*rootPtr)->right->left != NULL){
 		if((*rootPtr)->right->color == 'r' && (*rootPtr)->right->left->color == 'r'){
@@ -58,6 +57,5 @@ void _addRedBlackTree(Node **rootPtr, Node *newNode){
 void addRedBlackTree(Node **rootPtr, Node *newNode){
 	_addRedBlackTree(rootPtr, newNode);
 	(*rootPtr)->color = 'b';
-	
-}
+}	
 
