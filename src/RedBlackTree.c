@@ -4,13 +4,15 @@
 #include "ErrorCode.h"
 #include "CException.h"
 
+void _addRedBlackTree(Node **rootPtr, Node *newNode);
+Node *_delRedBlackTree(Node **rootPtr, Node *newNode);
+
 void addRedBlackTree(Node **rootPtr, Node *newNode){
 	_addRedBlackTree(rootPtr, newNode);
 	(*rootPtr)->color = 'b';
 }	
 
 void _addRedBlackTree(Node **rootPtr, Node *newNode){
-	Node *root = *rootPtr;
 
 	if((*rootPtr) == NULL){
 		*rootPtr = newNode;
@@ -22,8 +24,8 @@ void _addRedBlackTree(Node **rootPtr, Node *newNode){
 
   if((*rootPtr)->left != NULL && (*rootPtr)->right != NULL){
     if((*rootPtr)->left->color == 'r' && (*rootPtr)->right->color == 'r'){
-      (*rootPtr)->color = 'r';
       printf("aaa");
+      (*rootPtr)->color = 'r';
       (*rootPtr)->left->color = 'b';
       (*rootPtr)->right->color = 'b';
     }
@@ -58,5 +60,17 @@ void _addRedBlackTree(Node **rootPtr, Node *newNode){
 	}
 }
 
+Node *delRedBlackTree(Node **rootPtr, Node *newNode){
+  _delRedBlackTree(rootPtr, newNode);
+  (*rootPtr)->color = 'b';
+}
+
+Node *_delRedBlackTree(Node **rootPtr, Node *newNode){
+  Node *node;
+  
+  node = _delRedBlackTree(rootPtr, newNode);
+  
+  return node;
+}
 
 
