@@ -15,45 +15,43 @@ void _addRedBlackTree(Node **rootPtr, Node *newNode){
 			return;
 		}
         
-        if((*rootPtr)->left != NULL && (*rootPtr)->right != NULL){
-            if((*rootPtr)->left->color == 'r' && (*rootPtr)->right->color == 'r'){  
-                             (*rootPtr)->color = 'r';
-                             (*rootPtr)->left->color = 'b';
-                             (*rootPtr)->right->color = 'b';
-            }
-        }
-            
-        if((*rootPtr)->data > newNode->data){
-			_addRedBlackTree(&(*rootPtr)->left, newNode);	
-		}else if((*rootPtr)->data < newNode->data){
-			_addRedBlackTree(&(*rootPtr)->right, newNode);	
-		}else{
-			Throw(ERR_EQUIVALENT_NODE);
-		}
-		
-        if((*rootPtr)->left != NULL && (*rootPtr)->left->left != NULL){
-            if((*rootPtr)->left->color == 'r' && (*rootPtr)->left->left->color == 'r'){
-                    rightRotate(rootPtr);
-                    (*rootPtr)->right->color = 'r'; 
-            }
-        }else if((*rootPtr)->left != NULL && (*rootPtr)->left->right != NULL){
-            if((*rootPtr)->left->color == 'r' && (*rootPtr)->left->right->color == 'r'){
-                    leftRightRotate(rootPtr);
-                    (*rootPtr)->right->color = 'r';
-            }
-        }else if((*rootPtr)->right != NULL && (*rootPtr)->right->right != NULL){
-            if((*rootPtr)->right->color == 'r' && (*rootPtr)->right->right->color == 'r'){
-                    leftRotate(rootPtr);
-                    (*rootPtr)->left->color = 'r';
-            }
-        }else if((*rootPtr)->right != NULL && (*rootPtr)->right->left != NULL){
-            if((*rootPtr)->right->color == 'r' && (*rootPtr)->right->left->color == 'r'){
-                    rightLeftRotate(rootPtr);
-                    (*rootPtr)->left->color = 'r';
-            }
-        }
-            
-         
+  if((*rootPtr)->left != NULL && (*rootPtr)->right != NULL){
+    if((*rootPtr)->left->color == 'r' && (*rootPtr)->right->color == 'r'){  
+      (*rootPtr)->color = 'r';
+      (*rootPtr)->left->color = 'b';
+      (*rootPtr)->right->color = 'b';
+     }
+  }
+
+  if((*rootPtr)->data > newNode->data){
+		_addRedBlackTree(&(*rootPtr)->left, newNode);	
+	}else if((*rootPtr)->data < newNode->data){
+		_addRedBlackTree(&(*rootPtr)->right, newNode);	
+	}else{
+		Throw(ERR_EQUIVALENT_NODE);
+	}
+
+  if((*rootPtr)->left != NULL && (*rootPtr)->left->left != NULL){
+    if((*rootPtr)->left->color == 'r' && (*rootPtr)->left->left->color == 'r'){
+      rightRotate(rootPtr);
+      (*rootPtr)->right->color = 'r'; 
+    }
+  }else if((*rootPtr)->left != NULL && (*rootPtr)->left->right != NULL){
+    if((*rootPtr)->left->color == 'r' && (*rootPtr)->left->right->color == 'r'){
+      leftRightRotate(rootPtr);
+      (*rootPtr)->right->color = 'r';
+    }
+  }else if((*rootPtr)->right != NULL && (*rootPtr)->right->right != NULL){
+    if((*rootPtr)->right->color == 'r' && (*rootPtr)->right->right->color == 'r'){
+      leftRotate(rootPtr);
+      (*rootPtr)->left->color = 'r';
+    }
+  }else if((*rootPtr)->right != NULL && (*rootPtr)->right->left != NULL){
+    if((*rootPtr)->right->color == 'r' && (*rootPtr)->right->left->color == 'r'){
+      rightLeftRotate(rootPtr);
+      (*rootPtr)->left->color = 'r';
+    }
+  }
 }
 
 void addRedBlackTree(Node **rootPtr,Node *newNode){
@@ -61,15 +59,52 @@ void addRedBlackTree(Node **rootPtr,Node *newNode){
        (*rootPtr)->color = 'b';	
 }
 
-Node *delRedBlackTree(Node **rootPtr, Node *newNode){
-  _delRedBlackTree(rootPtr, newNode);
-  (*rootPtr)->color = 'b';
+Node *delRedBlackTree(Node **rootPtr, Node *delNode){
+  Node *node;
+  node = _delRedBlackTree(rootPtr, delNode);
+  
+  if(*rootPtr != NULL){
+    (*rootPtr)->color = 'b';
+  }
+  return node;
 }
 
-Node *_delRedBlackTree(Node **rootPtr, Node *newNode){
+Node *_delRedBlackTree(Node **rootPtr, Node *delNode){
   Node *node;
   
-  node = _delRedBlackTree(rootPtr, newNode);
+  
+  
+  if((*rootPtr) == NULL){
+    Throw(ERR_NODE_UNAVAILABLE);
+  }else if((*rootPtr)->data == delNode->data){
+    (*rootPtr) = NULL;
+    return node;
+  }else if((*rootPtr)->data > delNode->data){
+    if((*rootPtr)->left != NULL && (*rootPtr)->right != NULL){
+      if((*rootPtr)->left->color == 'b' && (*rootPtr)->right->color == 'b'){  
+        (*rootPtr)->color = 'b';
+        (*rootPtr)->left->color = 'r';
+        (*rootPtr)->right->color = 'r';
+      }
+    }
+    node = _delRedBlackTree(&(*rootPtr)->left, delNode);
+  }else if((*rootPtr)->data < delNode->data){
+    if((*rootPtr)->left != NULL && (*rootPtr)->right != NULL){
+      if((*rootPtr)->left->color == 'b' && (*rootPtr)->right->color == 'b'){  
+        (*rootPtr)->color = 'b';
+        (*rootPtr)->left->color = 'r';
+        (*rootPtr)->right->color = 'r';
+      }
+    }
+    node = _delRedBlackTree(&(*rootPtr)->right, delNode);
+  }
+  
+  if((*rootPtr)->right != NULL && (*rootPtr)->right->right != NULL && (*rootPtr)->left == NULL){
+    if((*rootPtr)->right->left->color == 'b' && (*rootPtr)->right->right->color == 'b'){
+      leftRotate(rootPtr);
+      (*rootPtr)->left->right->color = 'r';
+    }
+  }
   
   return node;
 }

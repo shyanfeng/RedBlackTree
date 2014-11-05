@@ -5,6 +5,6 @@
 
 void addRedBlackTree(Node **rootPtr, Node *newNode);
 void _addRedBlackTree(Node **rootPtr, Node *newNode);
-Node *delRedBlackTree(Node **rootPtr, Node *newNode);
-Node *_delRedBlackTree(Node **rootPtr, Node *newNode);
+Node *delRedBlackTree(Node **rootPtr, Node *delNode);
+Node *_delRedBlackTree(Node **rootPtr, Node *delNode);
 #endif // RedBlackTree_H
