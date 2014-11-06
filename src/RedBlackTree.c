@@ -72,41 +72,102 @@ Node *delRedBlackTree(Node **rootPtr, Node *delNode){
 Node *_delRedBlackTree(Node **rootPtr, Node *delNode){
   Node *node;
   
-  
-  
   if((*rootPtr) == NULL){
     Throw(ERR_NODE_UNAVAILABLE);
   }else if((*rootPtr)->data == delNode->data){
     (*rootPtr) = NULL;
     return node;
   }else if((*rootPtr)->data > delNode->data){
-    if((*rootPtr)->left != NULL && (*rootPtr)->right != NULL){
-      if((*rootPtr)->left->color == 'b' && (*rootPtr)->right->color == 'b'){  
-        (*rootPtr)->color = 'b';
-        (*rootPtr)->left->color = 'r';
-        (*rootPtr)->right->color = 'r';
-      }
-    }
     node = _delRedBlackTree(&(*rootPtr)->left, delNode);
   }else if((*rootPtr)->data < delNode->data){
-    if((*rootPtr)->left != NULL && (*rootPtr)->right != NULL){
-      if((*rootPtr)->left->color == 'b' && (*rootPtr)->right->color == 'b'){  
-        (*rootPtr)->color = 'b';
-        (*rootPtr)->left->color = 'r';
-        (*rootPtr)->right->color = 'r';
-      }
-    }
     node = _delRedBlackTree(&(*rootPtr)->right, delNode);
   }
   
-  if((*rootPtr)->right != NULL && (*rootPtr)->right->right != NULL && (*rootPtr)->left == NULL){
-    if((*rootPtr)->right->left->color == 'b' && (*rootPtr)->right->right->color == 'b'){
-      leftRotate(rootPtr);
-      (*rootPtr)->left->right->color = 'r';
-    }
-  }
+  isCase1(rootPtr);
+  isCase2(rootPtr);
   
-  return node;
 }
+
+void isCase2(Node **rootPtr){
+  if(isBlack(&(*rootPtr)) && isBlack(&(*rootPtr)->right) && (*rootPtr)->right->right == NULL && (*rootPtr)->right->left == NULL){
+    (*rootPtr)->right->color = 'r';
+  }/*else if(isRed(&(*rootPtr))){
+    (*rootPtr)->right->color = 'r';
+  }*/
+}
+
+void isCase1(Node **rootPtr){
+  if(isRed(&(*rootPtr)->right->right)){
+    (*rootPtr)->right->color = (*rootPtr)->color;
+    leftRotate(rootPtr);
+  }else if(isRed(&(*rootPtr)->right->left)){
+    (*rootPtr)->right->color = (*rootPtr)->color;
+    rightLeftRotate(rootPtr);
+  }
+  (*rootPtr)->left->color = 'b';
+  (*rootPtr)->right->color = 'b';
+}
+
+int isRed(Node **rootPtr){
+  if((*rootPtr) != NULL && (*rootPtr)->color == 'r')
+    return 1;
+  else
+    return 0;
+}
+
+int isBlack(Node **rootPtr){
+  if((*rootPtr) != NULL && (*rootPtr)->color == 'b')
+    return 1;
+  else
+    return 0;
+}
+
+int isDoubleBlack(Node **rootPtr){
+  if((*rootPtr) == NULL)
+    return 1;
+  else
+    return 0;
+}
+
+
+// Node *_delRedBlackTree(Node **rootPtr, Node *delNode){
+  // Node *node;
+  
+  
+  
+  // if((*rootPtr) == NULL){
+    // Throw(ERR_NODE_UNAVAILABLE);
+  // }else if((*rootPtr)->data == delNode->data){
+    // (*rootPtr) = NULL;
+    // return node;
+  // }else if((*rootPtr)->data > delNode->data){
+    // if((*rootPtr)->left != NULL && (*rootPtr)->right != NULL){
+      // if((*rootPtr)->left->color == 'b' && (*rootPtr)->right->color == 'b'){  
+        // (*rootPtr)->color = 'b';
+        // (*rootPtr)->left->color = 'r';
+        // (*rootPtr)->right->color = 'r';
+      // }
+    // }
+    // node = _delRedBlackTree(&(*rootPtr)->left, delNode);
+  // }else if((*rootPtr)->data < delNode->data){
+    // if((*rootPtr)->left != NULL && (*rootPtr)->right != NULL){
+      // if((*rootPtr)->left->color == 'b' && (*rootPtr)->right->color == 'b'){  
+        // (*rootPtr)->color = 'b';
+        // (*rootPtr)->left->color = 'r';
+        // (*rootPtr)->right->color = 'r';
+      // }
+    // }
+    // node = _delRedBlackTree(&(*rootPtr)->right, delNode);
+  // }
+  
+  // if((*rootPtr)->right != NULL && (*rootPtr)->right->right != NULL && (*rootPtr)->left == NULL){
+    // if((*rootPtr)->right->left->color == 'b' && (*rootPtr)->right->right->color == 'b'){
+      // leftRotate(rootPtr);
+      // (*rootPtr)->left->right->color = 'r';
+    // }
+  // }
+  
+  // return node;
+// }
 
 
