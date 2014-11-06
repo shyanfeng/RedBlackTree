@@ -10,6 +10,7 @@ Node *_delRedBlackTree(Node **rootPtr, Node *delNode);
 
 void isCase1(Node **rootPtr);
 void isCase2(Node **rootPtr);
+void isCase3(Node **rootPtr);
 
 int isRed(Node **rootPtr);
 int isBlack(Node **rootPtr);
