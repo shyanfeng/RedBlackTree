@@ -83,36 +83,52 @@ Node *_delRedBlackTree(Node **rootPtr, Node *delNode){
     node = _delRedBlackTree(&(*rootPtr)->right, delNode);
   }
   
-  if(isRed(&(*rootPtr)->right->left) || isRed(&(*rootPtr)->right->right)){
-    isCase1(rootPtr);
-  }else if(isBlack(&(*rootPtr)->right) && isBlack(&(*rootPtr)->right->left) && 
-  isBlack(&(*rootPtr)->right->right)){
-    isCase2(rootPtr);
-  }else if(isRed(&(*rootPtr)->right)){
-    isCase3(rootPtr);
+  // if(isRed(&node))
+    // return node;
+    
+  //LeftCase
+  if(isDoubleBlack(&(*rootPtr)->left)){
+    if(isRed(&(*rootPtr)->right->left) || isRed(&(*rootPtr)->right->right)){
+      isLeftCase1(rootPtr);
+    }else if(isBlack(&(*rootPtr)->right) && isBlack(&(*rootPtr)->right->left) && 
+    isBlack(&(*rootPtr)->right->right)){
+      isLeftCase2(rootPtr);
+    }else if(isRed(&(*rootPtr)->right)){
+      isLeftCase3(rootPtr);
+    }
+  }
+  
+  //RightCase
+  if(isDoubleBlack(&(*rootPtr)->right)){
+    if(isRed(&(*rootPtr)->left->right) || isRed(&(*rootPtr)->left->left)){
+      isRightCase1(rootPtr);
+    }else if(isBlack(&(*rootPtr)->left) && isBlack(&(*rootPtr)->left->right) && 
+      isBlack(&(*rootPtr)->left->left)){
+      isRightCase2(rootPtr);
+    }
   }
   
   return node;
 }
 
-void isCase3(Node **rootPtr){
+void isLeftCase3(Node **rootPtr){
   if(isRed(&(*rootPtr)->right)){
     (*rootPtr)->right->color = (*rootPtr)->color;
     (*rootPtr)->color = 'r';
     leftRotate(rootPtr);
   }
   
-  if(isRed(&(*rootPtr)->left) && isBlack(&(*rootPtr)->right->left) && 
-  isBlack(&(*rootPtr)->right->right)){
-    isCase2(rootPtr);
+  if(isDoubleBlack(&(*rootPtr)->left->left) && isBlack(&(*rootPtr)->left->right)){
+    if(isBlack(&(*rootPtr)->left->right->right) &&isBlack(&(*rootPtr)->left->right->left))
+    isLeftCase2(&(*rootPtr)->left);
+    else if(isRed(&(*rootPtr)->left->right->right) || isRed(&(*rootPtr)->left->right->left))
+    isLeftCase1(&(*rootPtr)->left);
   }
   
-  /*if(isRed(&(*rootPtr)->left->right->right)){
-    isCase1(rootPtr);
-  }*/
+
 }
 
-void isCase2(Node **rootPtr){
+void isLeftCase2(Node **rootPtr){
   if(isBlack(&(*rootPtr)) && isBlack(&(*rootPtr)->right)){
     (*rootPtr)->color = 'd';
     (*rootPtr)->right->color = 'r';
@@ -122,13 +138,35 @@ void isCase2(Node **rootPtr){
   }
 }
 
-void isCase1(Node **rootPtr){
+void isLeftCase1(Node **rootPtr){
   if(isRed(&(*rootPtr)->right->right)){
     (*rootPtr)->right->color = (*rootPtr)->color;
     leftRotate(rootPtr);
   }else if(isRed(&(*rootPtr)->right->left)){
     (*rootPtr)->right->color = (*rootPtr)->color;
     rightLeftRotate(rootPtr);
+  }
+  (*rootPtr)->left->color = 'b';
+  (*rootPtr)->right->color = 'b';
+}
+
+void isRightCase2(Node **rootPtr){
+  if(isBlack(&(*rootPtr)) && isBlack(&(*rootPtr)->left)){
+    (*rootPtr)->color = 'd';
+    (*rootPtr)->left->color = 'r';
+  }else if(isRed(&(*rootPtr))){
+    (*rootPtr)->color = 'b';
+    (*rootPtr)->left->color = 'r';
+  }
+}
+
+void isRightCase1(Node **rootPtr){
+  if(isRed(&(*rootPtr)->left->left)){
+    (*rootPtr)->left->color = (*rootPtr)->color;
+    rightRotate(rootPtr);
+  }else if(isRed(&(*rootPtr)->left->right)){
+    (*rootPtr)->left->color = (*rootPtr)->color;
+    leftRightRotate(rootPtr);
   }
   (*rootPtr)->left->color = 'b';
   (*rootPtr)->right->color = 'b';

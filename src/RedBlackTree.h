@@ -8,9 +8,12 @@ void _addRedBlackTree(Node **rootPtr, Node *newNode);
 Node *delRedBlackTree(Node **rootPtr, Node *delNode);
 Node *_delRedBlackTree(Node **rootPtr, Node *delNode);
 
-void isCase1(Node **rootPtr);
-void isCase2(Node **rootPtr);
-void isCase3(Node **rootPtr);
+void isLeftCase1(Node **rootPtr);
+void isLeftCase2(Node **rootPtr);
+void isLeftCase3(Node **rootPtr);
+
+void isRightCase1(Node **rootPtr);
+void isRightCase2(Node **rootPtr);
 
 int isRed(Node **rootPtr);
 int isBlack(Node **rootPtr);

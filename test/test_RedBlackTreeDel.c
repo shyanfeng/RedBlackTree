@@ -171,7 +171,7 @@ void test_delRedBlackTree_remove_1_from_tree_with_root_2_4_red_3_5(void){
  *        4(r)                   \              \           /   \
  *                              4(r)            4(r)      2(b)  4(b)
  *
- *//*
+ */
 void test_delRedBlackTree_remove_1_from_tree_with_root_2_4_5_red_3_6(void){
   CEXCEPTION_T err;
   setNode(&node1, NULL, NULL, 'b');
@@ -190,71 +190,151 @@ void test_delRedBlackTree_remove_1_from_tree_with_root_2_4_5_red_3_6(void){
   TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node2);
   TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node4);
 
+}
+
+/** 5-node case
+ *        root
+ *        /       remove 5        root
+ *       v        -------->       /                     root
+ *      4(b)                     v        ----->        /
+ *     /  \                     4(b)                  2(b)
+ *   2(b)  5(b)                 /                    /    \
+ *   /                         2(b)                1(b)   4(b)
+ *  1(r)                      /        
+ *                           1(r)         
+ */
+void test_delRedBlackTree_remove_5_from_tree_rotate_right_case_1_with_root_2_4_1(void){
+  CEXCEPTION_T err;
+  setNode(&node5, NULL, NULL, 'b');
+  setNode(&node1, NULL, NULL, 'r');
+  setNode(&node2, &node1, NULL, 'b');
+  setNode(&node4, &node2, &node5, 'b');
+  Node *root = &node4;
+  
+  delRedBlackTree(&root, &node5);
+  TEST_ASSERT_EQUAL_PTR(root, &node2);
+  TEST_ASSERT_EQUAL_NODE(&node1, &node4, 'b', &node2);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node1);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node4);
+
+}
+
+/** 5-node case
+ *        root
+ *        /       remove 5        root
+ *       v        -------->       /                     root
+ *      4(b)                     v        ----->        /
+ *     /  \                     4(b)                  3(b)
+ *   2(b)  5(b)                 /                    /    \
+ *      \                      2(b)                2(b)   4(b)
+ *       3(r)                     \        
+ *                                3(r)         
+ */
+void test_delRedBlackTree_remove_5_from_tree_rotate_right_case_1_with_root_2_4_red_1(void){
+  CEXCEPTION_T err;
+  setNode(&node5, NULL, NULL, 'b');
+  setNode(&node3, NULL, NULL, 'r');
+  setNode(&node2, NULL, &node3, 'b');
+  setNode(&node4, &node2, &node5, 'b');
+  Node *root = &node4;
+  
+  delRedBlackTree(&root, &node5);
+  TEST_ASSERT_EQUAL_PTR(root, &node3);
+  TEST_ASSERT_EQUAL_NODE(&node2, &node4, 'b', &node3);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node2);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node4);
+
+}
+
+/** 3-node case
+ *        root
+ *        /       remove 3        root
+ *       v        -------->       /
+ *      2(b)                     v
+ *     /  \                     2(d)
+ *   1(b)  3(b)                 /  
+ *                             1(r)
+ *
+ *
+ */
+void test_delRedBlackTree_remove_3_from_tree_with_right_case_root_2_and_3_with_red(void){
+  CEXCEPTION_T err;
+  setNode(&node3, NULL, NULL, 'b');
+  setNode(&node1, NULL, NULL, 'b');
+  setNode(&node2, &node1, &node3, 'b');
+  Node *root = &node2;
+  
+  _delRedBlackTree(&root, &node3);
+  TEST_ASSERT_EQUAL_PTR(root, &node2);
+  TEST_ASSERT_EQUAL_NODE(&node1, NULL, 'd', &node2);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node1);
+
+}
+
+/** 2-node case
+ *        root
+ *        /       remove 2    
+ *       v        -------->   Throw ERR_NODE_UNAVAILABLE
+ *      1(b)                   
+ *                            
+ *
+ *
+ */
+void test_delRedBlackTree_remove_2_from_tree_with_root_1_should_throw_ERR_NODE_UNAVAILABLE(void){
+  CEXCEPTION_T err;
+  setNode(&node1, NULL, NULL, 'b');
+  setNode(&node2, NULL, NULL, 'b');
+  Node *root = &node1;
+  
+  Try {
+    delRedBlackTree(&root, &node2);
+    TEST_FAIL_MESSAGE("Expected ERR_NODE_UNAVAILABLE to be thrown. But receive none");
+  } Catch(err){
+    TEST_ASSERT_EQUAL_PTR(root, &node1);
+    TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node1);
+  }
+}
+
+/** 2-node case
+ *        root
+ *        /       remove 1        root
+ *       v        -------->       /
+ *      1(b)                     v
+ *                              NULL
+ *
+ *
+ */
+void test_delRedBlackTree_remove_1_from_tree_with_root_1(void){
+  CEXCEPTION_T err;
+  setNode(&node1, NULL, NULL, 'b');
+  Node *root = &node1;
+  Node *newRoot;
+  
+  delRedBlackTree(&root, &node1);
+  
+  TEST_ASSERT_EQUAL_PTR(root, NULL);
+
+}
+
+/** 2-node case
+ *        root
+ *        /       remove 2        root
+ *       v        -------->       /
+ *      1(b)                     v
+ *        \                     1(b)
+ *        2(r)
+ *
+ *//*
+void test_delRedBlackTree_remove_2_from_tree_with_root_1(void){
+  CEXCEPTION_T err;
+  setNode(&node2, NULL, NULL, 'r');
+  setNode(&node1, NULL, &node2, 'b');
+  Node *root = &node1;
+  
+  delRedBlackTree(&root, &node2);
+  TEST_ASSERT_EQUAL_PTR(root, &node1);
+
 }*/
-
-// /** 2-node case
- // *        root
- // *        /       remove 2    
- // *       v        -------->   Throw ERR_NODE_UNAVAILABLE
- // *      1(b)                   
- // *                            
- // *
- // *
- // */
-// void test_delRedBlackTree_remove_2_from_tree_with_root_1_should_throw_ERR_NODE_UNAVAILABLE(void){
-  // CEXCEPTION_T err;
-  // setNode(&node1, NULL, NULL, 'b');
-  // setNode(&node2, NULL, NULL, 'b');
-  // Node *root = &node1;
-  
-  // Try {
-    // delRedBlackTree(&root, &node2);
-    // TEST_FAIL_MESSAGE("Expected ERR_NODE_UNAVAILABLE to be thrown. But receive none");
-  // } Catch(err){
-    // TEST_ASSERT_EQUAL_PTR(root, &node1);
-    // TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node1);
-  // }
-// }
-
-// /** 2-node case
- // *        root
- // *        /       remove 1        root
- // *       v        -------->       /
- // *      1(b)                     v
- // *                              NULL
- // *
- // *
- // */
-// void test_delRedBlackTree_remove_1_from_tree_with_root_1(void){
-  // CEXCEPTION_T err;
-  // setNode(&node1, NULL, NULL, 'b');
-  // setNode(&node1, NULL, NULL, 'b');
-  // Node *root = &node1;
-  
-  // delRedBlackTree(&root, &node1);
-  // TEST_ASSERT_EQUAL_PTR(root, NULL);
-
-// }
-
-// /** 2-node case
- // *        root
- // *        /       remove 2        root
- // *       v        -------->       /
- // *      1(b)                     v
- // *        \                     1(b)
- // *        2(r)
- // *
- // */
-// void test_delRedBlackTree_remove_2_from_tree_with_root_1(void){
-  // CEXCEPTION_T err;
-  // setNode(&node2, NULL, NULL, 'r');
-  // setNode(&node1, NULL, &node2, 'b');
-  // Node *root = &node1;
-  
-  // delRedBlackTree(&root, &node2);
-  // TEST_ASSERT_EQUAL_PTR(root, &node1);
-
-// }
 
 // /** 2-node case
  // *        root
@@ -300,58 +380,58 @@ void test_delRedBlackTree_remove_1_from_tree_with_root_2_4_5_red_3_6(void){
 
 // }
 
-// /** 3-node case
- // *        root
- // *        /       remove 1        root
- // *       v        -------->       /
- // *      2(b)                     v
- // *     /  \                     2(b)
- // *   1(b)  3(b)                    \
- // *                                 3(r)
- // *
- // *
- // */
-// void test_delRedBlackTree_remove_1_from_tree_with_root_2_and_3_with_black(void){
-  // CEXCEPTION_T err;
-  // setNode(&node1, NULL, NULL, 'b');
-  // setNode(&node3, NULL, NULL, 'b');
-  // setNode(&node2, &node1, &node3, 'b');
-  // Node *root = &node2;
+/** 3-node case
+ *        root
+ *        /       remove 1        root
+ *       v        -------->       /
+ *      2(b)                     v
+ *     /  \                     2(b)
+ *   1(b)  3(b)                    \
+ *                                 3(r)
+ *
+ *
+ */
+void test_delRedBlackTree_remove_1_from_tree_with_root_2_and_3_with_black(void){
+  CEXCEPTION_T err;
+  setNode(&node1, NULL, NULL, 'b');
+  setNode(&node3, NULL, NULL, 'b');
+  setNode(&node2, &node1, &node3, 'b');
+  Node *root = &node2;
   
-  // delRedBlackTree(&root, &node1);
-  // TEST_ASSERT_EQUAL_PTR(root, &node2);
-  // TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node3);
+  delRedBlackTree(&root, &node1);
+  TEST_ASSERT_EQUAL_PTR(root, &node2);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node3);
 
-// }
+}
 
-// /** 5-node case
- // *        root
- // *        /       remove 1        root
- // *       v        -------->       /
- // *      2(b)                     v
- // *     /  \                     5(b)
- // *   1(b)  5(r)                 /  \
- // *        /   \               2(b)  6(b)
- // *      3(b)  6(b)               \
- // *                               3(r)
- // */
-// void test_delRedBlackTree_remove_1_from_tree_rotate_left_with_root_2_3_5_6(void){
-  // CEXCEPTION_T err;
-  // setNode(&node1, NULL, NULL, 'b');
-  // setNode(&node3, NULL, NULL, 'b');
-  // setNode(&node6, NULL, NULL, 'b');
-  // setNode(&node5, &node3, &node6, 'r');
-  // setNode(&node2, &node1, &node5, 'b');
-  // Node *root = &node2;
+/** 5-node case
+ *        root
+ *        /       remove 1        root
+ *       v        -------->       /
+ *      2(b)                     v
+ *     /  \                     5(b)
+ *   1(b)  5(r)                 /  \
+ *        /   \               2(b)  6(b)
+ *      3(b)  6(b)               \
+ *                               3(r)
+ */
+void test_delRedBlackTree_remove_1_from_tree_rotate_left_with_root_2_3_5_6(void){
+  CEXCEPTION_T err;
+  setNode(&node1, NULL, NULL, 'b');
+  setNode(&node3, NULL, NULL, 'b');
+  setNode(&node6, NULL, NULL, 'b');
+  setNode(&node5, &node3, &node6, 'r');
+  setNode(&node2, &node1, &node5, 'b');
+  Node *root = &node2;
   
-  // delRedBlackTree(&root, &node1);
-  // TEST_ASSERT_EQUAL_PTR(root, &node5);
-  // TEST_ASSERT_EQUAL_NODE(&node2, &node6, 'b', &node5);
-  // TEST_ASSERT_EQUAL_NODE(NULL, &node3, 'b', &node2);
-  // TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node3);
-  // TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node6);
+  delRedBlackTree(&root, &node1);
+  TEST_ASSERT_EQUAL_PTR(root, &node5);
+  TEST_ASSERT_EQUAL_NODE(&node2, &node6, 'b', &node5);
+  TEST_ASSERT_EQUAL_NODE(NULL, &node3, 'b', &node2);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node3);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node6);
 
-// }
+}
 
 // /** 5-node case
  // *        root
