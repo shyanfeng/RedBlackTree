@@ -105,6 +105,8 @@ Node *_delRedBlackTree(Node **rootPtr, Node *delNode){
     }else if(isBlack(&(*rootPtr)->left) && isBlack(&(*rootPtr)->left->right) && 
       isBlack(&(*rootPtr)->left->left)){
       isRightCase2(rootPtr);
+    }else if(isRed(&(*rootPtr)->left)){
+      isRightCase3(rootPtr);
     }
   }
   
@@ -148,6 +150,23 @@ void isLeftCase1(Node **rootPtr){
   }
   (*rootPtr)->left->color = 'b';
   (*rootPtr)->right->color = 'b';
+}
+
+void isRightCase3(Node **rootPtr){
+  if(isRed(&(*rootPtr)->left)){
+    (*rootPtr)->left->color = (*rootPtr)->color;
+    (*rootPtr)->color = 'r';
+    rightRotate(rootPtr);
+  }
+  
+  if(isDoubleBlack(&(*rootPtr)->right->right) && isBlack(&(*rootPtr)->right->left)){
+    if(isBlack(&(*rootPtr)->right->left->left) &&isBlack(&(*rootPtr)->right->left->right))
+    isRightCase2(&(*rootPtr)->right);
+    else if(isRed(&(*rootPtr)->right->left->left) || isRed(&(*rootPtr)->right->left->right))
+    isRightCase1(&(*rootPtr)->right);
+  }
+  
+
 }
 
 void isRightCase2(Node **rootPtr){

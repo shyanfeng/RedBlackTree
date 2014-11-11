@@ -8,7 +8,7 @@
 #include "ErrorCode.h"
 #include "CException.h"
 
-Node node1, node2, node3, node4, node5, node6, node7;
+Node node1, node2, node3, node4, node5, node6, node7, node8, node10;
 
 void setUp(void){
 	resetNode(&node1, 1);
@@ -18,6 +18,8 @@ void setUp(void){
 	resetNode(&node5, 5);
 	resetNode(&node6, 6);
 	resetNode(&node7, 7);
+	resetNode(&node8, 8);
+	resetNode(&node10, 10);
 }
 
 void tearDown(void){}
@@ -192,7 +194,7 @@ void test_delRedBlackTree_remove_1_from_tree_with_root_2_4_5_red_3_6(void){
 
 }
 
-/** 5-node case
+/** 4-node case
  *        root
  *        /       remove 5        root
  *       v        -------->       /                     root
@@ -219,7 +221,7 @@ void test_delRedBlackTree_remove_5_from_tree_rotate_right_case_1_with_root_2_4_1
 
 }
 
-/** 5-node case
+/** 4-node case
  *        root
  *        /       remove 5        root
  *       v        -------->       /                     root
@@ -268,6 +270,97 @@ void test_delRedBlackTree_remove_3_from_tree_with_right_case_root_2_and_3_with_r
   TEST_ASSERT_EQUAL_PTR(root, &node2);
   TEST_ASSERT_EQUAL_NODE(&node1, NULL, 'd', &node2);
   TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node1);
+
+}
+
+/** 3-node case
+ *        root
+ *        /       remove 3        root
+ *       v        -------->       /
+ *      2(r)                     v
+ *     /  \                     2(d)
+ *   1(b)  3(b)                 /  
+ *                             1(r)
+ *
+ *
+ */
+void test_delRedBlackTree_remove_3_from_tree_with_right_case_root_2_red_and_3(void){
+  CEXCEPTION_T err;
+  setNode(&node3, NULL, NULL, 'b');
+  setNode(&node1, NULL, NULL, 'b');
+  setNode(&node2, &node1, &node3, 'r');
+  Node *root = &node2;
+  
+  _delRedBlackTree(&root, &node3);
+  TEST_ASSERT_EQUAL_PTR(root, &node2);
+  TEST_ASSERT_EQUAL_NODE(&node1, NULL, 'b', &node2);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node1);
+
+}
+
+/** 5-node case
+ *        root
+ *        /       remove 5        root
+ *       v        -------->       /                      root
+ *      4(b)                     v      ---->            /
+ *     /  \                     4(b)                   2(b)
+ *   2(r)  5(b)                /                      /    \
+ *  /    \                   2(r)                  1(b)    4(b)
+ * 1(b)   3(b)               /   \                         /
+ *                        1(b)  3(b)                    3(r)
+ *
+ *
+ *
+ */
+void test_delRedBlackTree_remove_1_from_tree_with_right_case_root_2_4_red_3_5(void){
+  CEXCEPTION_T err;
+  setNode(&node5, NULL, NULL, 'b');
+  setNode(&node1, NULL, NULL, 'b');
+  setNode(&node3, NULL, NULL, 'b');
+  setNode(&node2, &node1, &node3, 'r');
+  setNode(&node4, &node2, &node5, 'b');
+  Node *root = &node4;
+  
+  delRedBlackTree(&root, &node5);
+  TEST_ASSERT_EQUAL_PTR(root, &node2);
+  TEST_ASSERT_EQUAL_NODE(&node1, &node4, 'b', &node2);
+  TEST_ASSERT_EQUAL_NODE(&node3, NULL, 'b', &node4);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node1);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node3);
+
+}
+
+/** 6-node case
+ *          root
+ *          /     remove 7       root             
+ *        v      -------->      /                 
+ *       6(b)                  v      ---->               root
+ *      /   \                 6(b)                        /
+ *    3(r)   7(b)            /                           v
+ *    /   \                3(r)                        3(b)
+ *  1(b)  5(b)             /   \                      /   \
+ *        /             1(b)  5(b)                  1(b)  5(r)
+ *      4(r)                  /                           /   \
+ *                          4(r)                        4(b)  6(b)
+ *
+ */
+void test_delRedBlackTree_remove_7_from_tree_with_root_2_4_red_5_3_red_1(void){
+  CEXCEPTION_T err;
+  setNode(&node7, NULL, NULL, 'b');
+  setNode(&node1, NULL, NULL, 'b');
+  setNode(&node4, NULL, NULL, 'r');
+  setNode(&node5, &node4, NULL, 'b');
+  setNode(&node3, &node1, &node5, 'r');
+  setNode(&node6, &node3, &node7, 'b');
+  Node *root = &node6;
+  
+  delRedBlackTree(&root, &node7);
+  TEST_ASSERT_EQUAL_PTR(root, &node3);
+  TEST_ASSERT_EQUAL_NODE(&node1, &node5, 'b', &node3);
+  TEST_ASSERT_EQUAL_NODE(&node4, &node6, 'r', &node5);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node6);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node1);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node4);
 
 }
 

@@ -14,6 +14,7 @@ void isLeftCase3(Node **rootPtr);
 
 void isRightCase1(Node **rootPtr);
 void isRightCase2(Node **rootPtr);
+void isRightCase3(Node **rootPtr);
 
 int isRed(Node **rootPtr);
 int isBlack(Node **rootPtr);
