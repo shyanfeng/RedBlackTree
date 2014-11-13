@@ -113,6 +113,7 @@ Node *_delRedBlackTree(Node **rootPtr, Node *delNode){
   return node;
 }
 
+
 Node *removeNextLargerSuccessor(Node **parentPtr){
   Node *removeNode;
  
@@ -124,14 +125,27 @@ Node *removeNextLargerSuccessor(Node **parentPtr){
     return removeNode;
   }else if((*parentPtr)->right != NULL){
     removeNode = (*parentPtr);
-    (*parentPtr) = NULL;
-    (*parentPtr) = removeNode;
     (*parentPtr)->right->color = 'b';
+    (*parentPtr) = (*parentPtr)->right;
+    
     return removeNode;
+  }
+  
+  //RightCase
+  if(isDoubleBlack((&(*parentPtr)->right), removeNode)){
+    if(isRed(&(*parentPtr)->left->right) || isRed(&(*parentPtr)->left->left)){
+      isRightCase1(parentPtr);
+    }else if(isBlack(&(*parentPtr)->left) && isBlack(&(*parentPtr)->left->right) && 
+      isBlack(&(*parentPtr)->left->left)){
+      isRightCase2(parentPtr);
+    }else if(isRed(&(*parentPtr)->left)){
+      isRightCase3(parentPtr, removeNode);
+    }
   }
   
   return removeNode;
 }
+
 
 void isLeftCase3(Node **rootPtr, Node *removeNode){
   if(isRed(&(*rootPtr)->right)){

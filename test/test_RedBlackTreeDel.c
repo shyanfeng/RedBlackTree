@@ -381,7 +381,7 @@ void test_removeNextLargerSuccessor_with_red_should_return_NULL(void){
  *          root
  *          /     successor 3      root             
  *        v      -------->      /     ---->   root        
- *       12(b)                  4(r)           /
+ *       3(b)                  4(r)           /
  *      /   \                               4(b)
  *         4(r) 
  *
@@ -465,10 +465,10 @@ void test_removeNextLargerSuccessor_with_12b_5b_18b_1r_13rshould_return_12b_18b_
  *   \
  *   2(r)
  */
-void test_removeNextLargerSuccessor_with_12b_5b_18b_1b_7b_2r_13b_19b_2r_should_return_12b_5b_18b_7b_2r_13b_19b_2b(void){
+void test_removeNextLargerSuccessor_with_1b_12b_5b_18b_1b_7b_13b_19b_2r_should_return_12b_5b_18b_7b_2r_13b_19b_2b(void){
   CEXCEPTION_T err;
-  setNode(&node1, NULL, &node2, 'b');
   setNode(&node2, NULL, NULL, 'r');
+  setNode(&node1, NULL, &node2, 'b');
   setNode(&node7, NULL, NULL, 'b');
   setNode(&node13, NULL, NULL, 'b');
   setNode(&node19, NULL, NULL, 'b');
@@ -488,6 +488,40 @@ void test_removeNextLargerSuccessor_with_12b_5b_18b_1b_7b_2r_13b_19b_2r_should_r
   TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node7);
 
 }
+
+/** 6-node case
+ *          root
+ *          /     successor 1     root             
+ *        v      -------->       /            
+ *       12(b)                  12(b)           
+ *      /   \                  /      \
+ *    5(b)   18(b)           5(b)     18(r)
+ *    /  \    /   \           \      /    \
+ * 1(b) 7(b)13(b) 19(b)       7(r) 13(b) 19(b)
+ *   
+ */
+void test_removeNextLargerSuccessor_with_1b_12b_5b_18b_1b_7b_13b_19b_should_return_12b_5b_18b_7b_13b_19b(void){
+  CEXCEPTION_T err;
+  setNode(&node1, NULL, NULL, 'b');
+  setNode(&node7, NULL, NULL, 'b');
+  setNode(&node13, NULL, NULL, 'b');
+  setNode(&node19, NULL, NULL, 'b');
+  setNode(&node18, &node13, &node19, 'b');
+  setNode(&node5, &node1, &node7, 'b');
+  setNode(&node12, &node5, &node18, 'b');
+  Node *removedNode, *parent = &node12;
+  
+  removedNode = removeNextLargerSuccessor(&parent);
+  TEST_ASSERT_EQUAL_PTR(&node1, removedNode);
+  TEST_ASSERT_EQUAL_NODE(&node5, &node18, 'b', &node12);
+  TEST_ASSERT_EQUAL_NODE(NULL, &node7, 'b', &node5);
+  //TEST_ASSERT_EQUAL_NODE(&node13, &node19, 'r', &node18);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node13);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node19);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node7);
+
+}
+
 
 /** 2-node case
  *        root
