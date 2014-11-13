@@ -8,7 +8,7 @@ void _addRedBlackTree(Node **rootPtr, Node *newNode);
 Node *delRedBlackTree(Node **rootPtr, Node *delNode);
 Node *_delRedBlackTree(Node **rootPtr, Node *delNode);
 
-Node *removeNextLargerSuccessor(Node *parentPtr);
+Node *removeNextLargerSuccessor(Node **parentPtr);
 
 void isLeftCase1(Node **rootPtr);
 void isLeftCase2(Node **rootPtr);

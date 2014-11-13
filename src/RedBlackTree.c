@@ -116,13 +116,21 @@ Node *_delRedBlackTree(Node **rootPtr, Node *delNode){
 Node *removeNextLargerSuccessor(Node **parentPtr){
   Node *removeNode;
  
-  if(&(*parentPtr)->right != NULL){
-    removeNode = removeNextLargerSuccessor(parentPtr);
-  }else if(&(*parentPtr)->right == NULL){
-    if(&(*parentPtr)->color == 'b'){
-      (*parentPtr) = NULL;
-    }
+  if((*parentPtr)->left != NULL){
+    removeNode = removeNextLargerSuccessor(&(*parentPtr)->left);
+  }else if((*parentPtr)->right == NULL){
+    removeNode = (*parentPtr);
+    (*parentPtr) = NULL;
+    return removeNode;
+  }else if((*parentPtr)->right != NULL){
+    removeNode = (*parentPtr);
+    (*parentPtr) = NULL;
+    (*parentPtr) = removeNode;
+    (*parentPtr)->right->color = 'b';
+    return removeNode;
   }
+  
+  return removeNode;
 }
 
 void isLeftCase3(Node **rootPtr, Node *removeNode){

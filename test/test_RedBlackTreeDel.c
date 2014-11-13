@@ -8,7 +8,8 @@
 #include "ErrorCode.h"
 #include "CException.h"
 
-Node node1, node2, node3, node4, node5, node6, node7, node8, node10;
+Node node1, node2, node3, node4, node5, node6, node7, 
+node8, node10, node12, node13,node18, node19;
 
 void setUp(void){
 	resetNode(&node1, 1);
@@ -20,6 +21,10 @@ void setUp(void){
 	resetNode(&node7, 7);
 	resetNode(&node8, 8);
 	resetNode(&node10, 10);
+	resetNode(&node10, 12);
+	resetNode(&node10, 13);
+	resetNode(&node10, 18);
+	resetNode(&node10, 19);
 }
 
 void tearDown(void){}
@@ -330,37 +335,157 @@ void test_delRedBlackTree_remove_1_from_tree_with_right_case_root_2_4_red_3_5(vo
 
 }
 
-/** 6-node case
+/** 1-node case
  *          root
- *          /     remove 7       root             
- *        v      -------->      /                 
- *       6(b)                  v      ---->               root
- *      /   \                 6(b)                        /
- *    3(r)   7(b)            /                           v
- *    /   \                3(r)                        3(b)
- *  1(b)  5(b)             /   \                      /   \
- *        /             1(b)  5(b)                  1(b)  5(r)
- *      4(r)                  /                           /   \
- *                          4(r)                        4(b)  6(b)
+ *          /     successor 3      root             
+ *        v      -------->      /             
+ *       3(b)                  v 
+ *                            NULL
+ *           
  *
  */
-void test_delRedBlackTree_remove_7_from_tree_with_root_2_4_red_5_3_red_1(void){
+void test_removeNextLargerSuccessor_with_black_should_return_NULL(void){
   CEXCEPTION_T err;
-  setNode(&node7, NULL, NULL, 'b');
-  setNode(&node1, NULL, NULL, 'b');
-  setNode(&node4, NULL, NULL, 'r');
-  setNode(&node5, &node4, NULL, 'b');
-  setNode(&node3, &node1, &node5, 'r');
-  setNode(&node6, &node3, &node7, 'b');
-  Node *root = &node6;
+  setNode(&node3, NULL, NULL, 'b');
+  Node *removedNode, *parent = &node3;
   
-  delRedBlackTree(&root, &node7);
-  TEST_ASSERT_EQUAL_PTR(root, &node3);
-  TEST_ASSERT_EQUAL_NODE(&node1, &node5, 'b', &node3);
-  TEST_ASSERT_EQUAL_NODE(&node4, &node6, 'r', &node5);
-  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node6);
-  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node1);
+  removedNode = removeNextLargerSuccessor(&parent);
+  TEST_ASSERT_EQUAL_PTR(&node3, removedNode);
+  TEST_ASSERT_NULL(parent);
+  TEST_ASSERT_EQUAL(1, isDoubleBlack(&parent, removedNode));
+
+}
+
+/** 1-node case
+ *          root
+ *          /     successor 3      root             
+ *        v      -------->      /             
+ *       3(r)                  v 
+ *                            NULL
+ *           
+ *
+ */
+void test_removeNextLargerSuccessor_with_red_should_return_NULL(void){
+  CEXCEPTION_T err;
+  setNode(&node3, NULL, NULL, 'r');
+  Node *removedNode, *parent = &node3;
+  
+  removedNode = removeNextLargerSuccessor(&parent);
+  TEST_ASSERT_EQUAL_PTR(&node3, removedNode);
+  TEST_ASSERT_NULL(parent);
+  TEST_ASSERT_EQUAL(0, isDoubleBlack(&parent, removedNode));
+
+}
+
+/** 2-node case
+ *          root
+ *          /     successor 3      root             
+ *        v      -------->      /     ---->   root        
+ *       12(b)                  4(r)           /
+ *      /   \                               4(b)
+ *         4(r) 
+ *
+ */
+void test_removeNextLargerSuccessor_with_3b_4r_should_return_4b(void){
+  CEXCEPTION_T err;
+  setNode(&node3, NULL, &node4, 'b');
+  setNode(&node4, NULL, NULL, 'r');
+  Node *removedNode, *parent = &node3;
+  
+  removedNode = removeNextLargerSuccessor(&parent);
+  TEST_ASSERT_EQUAL_PTR(&node3, removedNode);
   TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node4);
+
+
+}
+
+/** 3-node case
+ *          root
+ *          /     successor 5      root             
+ *        v      -------->      /            
+ *       12(b)                12(b)           
+ *      /   \                    \
+ *    5(r)  18(r)                18(r)
+ *
+ */
+void test_removeNextLargerSuccessor_with_12b_5r_18r_should_return_12b_18r(void){
+  CEXCEPTION_T err;
+  setNode(&node5, NULL, NULL, 'r');
+  setNode(&node18, NULL, NULL, 'r');
+  setNode(&node12, &node5, &node18, 'b');
+  Node *removedNode, *parent = &node12;
+  
+  removedNode = removeNextLargerSuccessor(&parent);
+  TEST_ASSERT_EQUAL_PTR(&node5, removedNode);
+  TEST_ASSERT_EQUAL_NODE(NULL, &node18, 'b', &node12);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node18);
+
+
+}
+
+/** 5-node case
+ *          root
+ *          /     successor 1      root             
+ *        v      -------->      /            
+ *       12(b)                12(b)           
+ *      /   \                /   \
+ *    5(b)  18(b)         5(b)   18(b)
+ *    /     /                    /
+ *  1(r)   13(r)               13(r)
+ *
+ *
+ */
+void test_removeNextLargerSuccessor_with_12b_5b_18b_1r_13rshould_return_12b_18b_5b_13r(void){
+  CEXCEPTION_T err;
+  setNode(&node1, NULL, NULL, 'r');
+  setNode(&node13, NULL, NULL, 'r');
+  setNode(&node18, &node13, NULL, 'b');
+  setNode(&node5, &node1, NULL, 'b');
+  setNode(&node12, &node5, &node18, 'b');
+  Node *removedNode, *parent = &node12;
+  
+  removedNode = removeNextLargerSuccessor(&parent);
+  TEST_ASSERT_EQUAL_PTR(&node1, removedNode);
+  TEST_ASSERT_EQUAL_NODE(&node5, &node18, 'b', &node12);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node5);
+  TEST_ASSERT_EQUAL_NODE(&node13, NULL, 'b', &node18);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node13);
+
+}
+
+/** 5-node case
+ *          root
+ *          /     successor 1     root             
+ *        v      -------->       /            
+ *       12(b)                  12(b)           
+ *      /   \                  /      \
+ *    5(b)   18(b)           5(b)     18(b)
+ *    /  \    /   \        /  \      /    \
+ * 1(b) 7(b)13(b) 19(b)   2(b) 7(b) 13(b) 19(b)
+ *   \
+ *   2(r)
+ */
+void test_removeNextLargerSuccessor_with_12b_5b_18b_1b_7b_2r_13b_19b_2r_should_return_12b_5b_18b_7b_2r_13b_19b_2b(void){
+  CEXCEPTION_T err;
+  setNode(&node1, NULL, &node2, 'b');
+  setNode(&node2, NULL, NULL, 'r');
+  setNode(&node7, NULL, NULL, 'b');
+  setNode(&node13, NULL, NULL, 'b');
+  setNode(&node19, NULL, NULL, 'b');
+  setNode(&node18, &node13, &node19, 'b');
+  setNode(&node5, &node1, &node7, 'b');
+  setNode(&node12, &node5, &node18, 'b');
+  Node *removedNode, *parent = &node12;
+  
+  removedNode = removeNextLargerSuccessor(&parent);
+  TEST_ASSERT_EQUAL_PTR(&node1, removedNode);
+  TEST_ASSERT_EQUAL_NODE(&node5, &node18, 'b', &node12);
+  TEST_ASSERT_EQUAL_NODE(&node2, &node7, 'b', &node5);
+  TEST_ASSERT_EQUAL_NODE(&node13, &node19, 'b', &node18);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node13);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node19);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node2);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node7);
 
 }
 
