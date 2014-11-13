@@ -1,0 +1,5 @@
+languace:c
+compiler
+  -gcc
+  -clang
+script: rake test:all
