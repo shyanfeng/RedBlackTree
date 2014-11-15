@@ -9,7 +9,7 @@
 #include "CException.h"
 
 Node node1, node2, node3, node4, node5, node6, node7, 
-node8, node10, node12, node13,node18, node19;
+node8, node10, node12, node13,node18, node19, node20, node24, node25;
 
 void setUp(void){
 	resetNode(&node1, 1);
@@ -21,10 +21,13 @@ void setUp(void){
 	resetNode(&node7, 7);
 	resetNode(&node8, 8);
 	resetNode(&node10, 10);
-	resetNode(&node10, 12);
-	resetNode(&node10, 13);
-	resetNode(&node10, 18);
-	resetNode(&node10, 19);
+	resetNode(&node12, 12);
+	resetNode(&node13, 13);
+	resetNode(&node18, 18);
+	resetNode(&node19, 19);
+	resetNode(&node20, 20);
+	resetNode(&node24, 24);
+	resetNode(&node25, 25);
 }
 
 void tearDown(void){}
@@ -576,7 +579,7 @@ void test_delRedBlackTree_remove_1_from_tree_with_root_1(void){
  *        \                     1(b)
  *        2(r)
  *
- *//*
+ */
 void test_delRedBlackTree_remove_2_from_tree_with_root_1(void){
   CEXCEPTION_T err;
   setNode(&node2, NULL, NULL, 'r');
@@ -586,7 +589,7 @@ void test_delRedBlackTree_remove_2_from_tree_with_root_1(void){
   delRedBlackTree(&root, &node2);
   TEST_ASSERT_EQUAL_PTR(root, &node1);
 
-}*/
+}
 
 // /** 2-node case
  // *        root
@@ -597,16 +600,16 @@ void test_delRedBlackTree_remove_2_from_tree_with_root_1(void){
  // *    1(r)
  // *
  // */
-// void test_delRedBlackTree_remove_1_from_tree_with_root_2(void){
-  // CEXCEPTION_T err;
-  // setNode(&node1, NULL, NULL, 'r');
-  // setNode(&node2, &node1, NULL, 'b');
-  // Node *root = &node2;
+void test_delRedBlackTree_remove_1_from_tree_with_root_2(void){
+  CEXCEPTION_T err;
+  setNode(&node1, NULL, NULL, 'r');
+  setNode(&node2, &node1, NULL, 'b');
+  Node *root = &node2;
   
-  // delRedBlackTree(&root, &node1);
-  // TEST_ASSERT_EQUAL_PTR(root, &node2);
+  delRedBlackTree(&root, &node1);
+  TEST_ASSERT_EQUAL_PTR(root, &node2);
 
-// }
+}
 
 // /** 3-node case
  // *        root
@@ -619,18 +622,18 @@ void test_delRedBlackTree_remove_2_from_tree_with_root_1(void){
  // *
  // *
  // */
-// void test_delRedBlackTree_remove_1_from_tree_with_root_2_and_3_with_red(void){
-  // CEXCEPTION_T err;
-  // setNode(&node1, NULL, NULL, 'r');
-  // setNode(&node3, NULL, NULL, 'r');
-  // setNode(&node2, &node1, &node3, 'b');
-  // Node *root = &node2;
+void test_delRedBlackTree_remove_1_from_tree_with_root_2b_and_3r(void){
+  CEXCEPTION_T err;
+  setNode(&node1, NULL, NULL, 'r');
+  setNode(&node3, NULL, NULL, 'r');
+  setNode(&node2, &node1, &node3, 'b');
+  Node *root = &node2;
   
-  // delRedBlackTree(&root, &node1);
-  // TEST_ASSERT_EQUAL_PTR(root, &node2);
-  // TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node3);
+  delRedBlackTree(&root, &node1);
+  TEST_ASSERT_EQUAL_PTR(root, &node2);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node3);
 
-// }
+}
 
 /** 3-node case
  *        root
@@ -696,24 +699,24 @@ void test_delRedBlackTree_remove_1_from_tree_rotate_left_with_root_2_3_5_6(void)
  // *      3(b)  6(b)                    \
  // *                                     6(r)
  // */
-// void test_delRedBlackTree_remove_3_from_tree_without_rotate_with_root_2_1_5_6(void){
-  // CEXCEPTION_T err;
-  // setNode(&node3, NULL, NULL, 'b');
-  // setNode(&node1, NULL, NULL, 'b');
-  // setNode(&node6, NULL, NULL, 'b');
-  // setNode(&node5, &node3, &node6, 'r');
-  // setNode(&node2, &node1, &node5, 'b');
-  // Node *root = &node2;
+void test_delRedBlackTree_remove_3_from_tree_without_rotate_with_root_2_1_5_6(void){
+  CEXCEPTION_T err;
+  setNode(&node3, NULL, NULL, 'b');
+  setNode(&node1, NULL, NULL, 'b');
+  setNode(&node6, NULL, NULL, 'b');
+  setNode(&node5, &node3, &node6, 'r');
+  setNode(&node2, &node1, &node5, 'b');
+  Node *root = &node2;
   
-  // delRedBlackTree(&root, &node3);
-  // TEST_ASSERT_EQUAL_PTR(root, &node2);
-  // TEST_ASSERT_EQUAL_NODE(&node1, &node5, 'b', &node2);
-  // TEST_ASSERT_EQUAL_NODE(NULL, &node6, 'b', &node5);
-  // TEST_ASSERT_EQUAL_NODE(&node1, &node5, 'b', &node2);
-  // TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node1);
-  // TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node6);
+  delRedBlackTree(&root, &node3);
+  TEST_ASSERT_EQUAL_PTR(root, &node2);
+  TEST_ASSERT_EQUAL_NODE(&node1, &node5, 'b', &node2);
+  TEST_ASSERT_EQUAL_NODE(NULL, &node6, 'b', &node5);
+  TEST_ASSERT_EQUAL_NODE(&node1, &node5, 'b', &node2);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node1);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node6);
 
-// }
+}
 
 // /** 5-node case
  // *        root
@@ -726,24 +729,24 @@ void test_delRedBlackTree_remove_1_from_tree_rotate_left_with_root_2_3_5_6(void)
  // *      3(b)  6(b)                  /
  // *                                3(r)
  // */
-// void test_delRedBlackTree_remove_6_from_tree_without_rotate_with_root_2_1_5_3(void){
-  // CEXCEPTION_T err;
-  // setNode(&node6, NULL, NULL, 'b');
-  // setNode(&node3, NULL, NULL, 'b');
-  // setNode(&node1, NULL, NULL, 'b');
-  // setNode(&node5, &node3, &node6, 'r');
-  // setNode(&node2, &node1, &node5, 'b');
-  // Node *root = &node2;
+void test_delRedBlackTree_remove_6_from_tree_without_rotate_with_root_2_1_5_3(void){
+  CEXCEPTION_T err;
+  setNode(&node6, NULL, NULL, 'b');
+  setNode(&node3, NULL, NULL, 'b');
+  setNode(&node1, NULL, NULL, 'b');
+  setNode(&node5, &node3, &node6, 'r');
+  setNode(&node2, &node1, &node5, 'b');
+  Node *root = &node2;
   
-  // delRedBlackTree(&root, &node6);
-  // TEST_ASSERT_EQUAL_PTR(root, &node2);
-  // TEST_ASSERT_EQUAL_NODE(&node1, &node5, 'b', &node2);
-  // TEST_ASSERT_EQUAL_NODE(&node3, NULL, 'b', &node5);
-  // TEST_ASSERT_EQUAL_NODE(&node1, &node5, 'b', &node2);
-  // TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node1);
-  // TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node3);
+  delRedBlackTree(&root, &node6);
+  TEST_ASSERT_EQUAL_PTR(root, &node2);
+  TEST_ASSERT_EQUAL_NODE(&node1, &node5, 'b', &node2);
+  TEST_ASSERT_EQUAL_NODE(&node3, NULL, 'b', &node5);
+  TEST_ASSERT_EQUAL_NODE(&node1, &node5, 'b', &node2);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node1);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node3);
 
-// }
+}
 
 // /** 7-node case
  // *        root
@@ -759,27 +762,27 @@ void test_delRedBlackTree_remove_1_from_tree_rotate_left_with_root_2_3_5_6(void)
  // *
  // *
  // */
-// void test_delRedBlackTree_remove_1_from_tree_without_rotate_with_root_2_5_3_6_7_4(void){
-  // CEXCEPTION_T err;
-  // setNode(&node1, NULL, NULL, 'b');
-  // setNode(&node3, NULL, NULL, 'b');
-  // setNode(&node5, NULL, NULL, 'b');
-  // setNode(&node7, NULL, NULL, 'b');
-  // setNode(&node6, &node5, &node7, 'r');
-  // setNode(&node2, &node1, &node3, 'r');
-  // setNode(&node4, &node2, &node6, 'b');
-  // Node *root = &node4;
+void test_delRedBlackTree_remove_1_from_tree_without_rotate_with_root_2_5_3_6_7_4(void){
+  CEXCEPTION_T err;
+  setNode(&node1, NULL, NULL, 'b');
+  setNode(&node3, NULL, NULL, 'b');
+  setNode(&node5, NULL, NULL, 'b');
+  setNode(&node7, NULL, NULL, 'b');
+  setNode(&node6, &node5, &node7, 'r');
+  setNode(&node2, &node1, &node3, 'r');
+  setNode(&node4, &node2, &node6, 'b');
+  Node *root = &node4;
   
-  // delRedBlackTree(&root, &node1);
-  // TEST_ASSERT_EQUAL_PTR(root, &node4);
-  // TEST_ASSERT_EQUAL_NODE(&node2, &node6, 'b', &node4);
-  // TEST_ASSERT_EQUAL_NODE(NULL, &node3, 'b', &node2);
-  // TEST_ASSERT_EQUAL_NODE(&node5, &node7, 'r', &node6);
-  // TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node5);
-  // TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node3);
-  // TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node7);
+  delRedBlackTree(&root, &node1);
+  TEST_ASSERT_EQUAL_PTR(root, &node4);
+  TEST_ASSERT_EQUAL_NODE(&node2, &node6, 'b', &node4);
+  TEST_ASSERT_EQUAL_NODE(NULL, &node3, 'b', &node2);
+  TEST_ASSERT_EQUAL_NODE(&node5, &node7, 'r', &node6);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node5);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node3);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node7);
 
-// }
+}
 
 // /** 7-node case
  // *        root
@@ -795,27 +798,27 @@ void test_delRedBlackTree_remove_1_from_tree_rotate_left_with_root_2_3_5_6(void)
  // *
  // *
  // */
-// void test_delRedBlackTree_remove_3_from_tree_without_rotate_with_root_2_5_1_6_7_4(void){
-  // CEXCEPTION_T err;
-  // setNode(&node3, NULL, NULL, 'b');
-  // setNode(&node1, NULL, NULL, 'b');
-  // setNode(&node5, NULL, NULL, 'b');
-  // setNode(&node7, NULL, NULL, 'b');
-  // setNode(&node6, &node5, &node7, 'r');
-  // setNode(&node2, &node1, &node3, 'r');
-  // setNode(&node4, &node2, &node6, 'b');
-  // Node *root = &node4;
+void test_delRedBlackTree_remove_3_from_tree_without_rotate_with_root_2_5_1_6_7_4(void){
+  CEXCEPTION_T err;
+  setNode(&node3, NULL, NULL, 'b');
+  setNode(&node1, NULL, NULL, 'b');
+  setNode(&node5, NULL, NULL, 'b');
+  setNode(&node7, NULL, NULL, 'b');
+  setNode(&node6, &node5, &node7, 'r');
+  setNode(&node2, &node1, &node3, 'r');
+  setNode(&node4, &node2, &node6, 'b');
+  Node *root = &node4;
   
-  // delRedBlackTree(&root, &node3);
-  // TEST_ASSERT_EQUAL_PTR(root, &node4);
-  // TEST_ASSERT_EQUAL_NODE(&node2, &node6, 'b', &node4);
-  // TEST_ASSERT_EQUAL_NODE(&node1, NULL, 'b', &node2);
-  // TEST_ASSERT_EQUAL_NODE(&node5, &node7, 'r', &node6);
-  // TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node5);
-  // TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node1);
-  // TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node7);
+  delRedBlackTree(&root, &node3);
+  TEST_ASSERT_EQUAL_PTR(root, &node4);
+  TEST_ASSERT_EQUAL_NODE(&node2, &node6, 'b', &node4);
+  TEST_ASSERT_EQUAL_NODE(&node1, NULL, 'b', &node2);
+  TEST_ASSERT_EQUAL_NODE(&node5, &node7, 'r', &node6);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node5);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node1);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node7);
 
-// }
+}
 
 // /** 7-node case
  // *        root
@@ -831,27 +834,27 @@ void test_delRedBlackTree_remove_1_from_tree_rotate_left_with_root_2_3_5_6(void)
  // *
  // *
  // */
-// void test_delRedBlackTree_remove_5_from_tree_without_rotate_with_root_2_3_1_6_7_4(void){
-  // CEXCEPTION_T err;
-  // setNode(&node5, NULL, NULL, 'b');
-  // setNode(&node3, NULL, NULL, 'b');
-  // setNode(&node1, NULL, NULL, 'b');
-  // setNode(&node7, NULL, NULL, 'b');
-  // setNode(&node6, &node5, &node7, 'r');
-  // setNode(&node2, &node1, &node3, 'r');
-  // setNode(&node4, &node2, &node6, 'b');
-  // Node *root = &node4;
+void test_delRedBlackTree_remove_5_from_tree_without_rotate_with_root_2_3_1_6_7_4(void){
+  CEXCEPTION_T err;
+  setNode(&node5, NULL, NULL, 'b');
+  setNode(&node3, NULL, NULL, 'b');
+  setNode(&node1, NULL, NULL, 'b');
+  setNode(&node7, NULL, NULL, 'b');
+  setNode(&node6, &node5, &node7, 'r');
+  setNode(&node2, &node1, &node3, 'r');
+  setNode(&node4, &node2, &node6, 'b');
+  Node *root = &node4;
   
-  // delRedBlackTree(&root, &node5);
-  // TEST_ASSERT_EQUAL_PTR(root, &node4);
-  // TEST_ASSERT_EQUAL_NODE(&node2, &node6, 'b', &node4);
-  // TEST_ASSERT_EQUAL_NODE(&node1, &node3, 'r', &node2);
-  // TEST_ASSERT_EQUAL_NODE(NULL, &node7, 'b', &node6);
-  // TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node3);
-  // TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node1);
-  // TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node7);
+  delRedBlackTree(&root, &node5);
+  TEST_ASSERT_EQUAL_PTR(root, &node4);
+  TEST_ASSERT_EQUAL_NODE(&node2, &node6, 'b', &node4);
+  TEST_ASSERT_EQUAL_NODE(&node1, &node3, 'r', &node2);
+  TEST_ASSERT_EQUAL_NODE(NULL, &node7, 'b', &node6);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node3);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node1);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node7);
 
-// }
+}
 
 // /** 7-node case
  // *        root
@@ -867,25 +870,85 @@ void test_delRedBlackTree_remove_1_from_tree_rotate_left_with_root_2_3_5_6(void)
  // *
  // *
  // */
-// void test_delRedBlackTree_remove_7_from_tree_without_rotate_with_root_2_3_1_6_5_4(void){
-  // CEXCEPTION_T err;
-  // setNode(&node7, NULL, NULL, 'b');
-  // setNode(&node5, NULL, NULL, 'b');
-  // setNode(&node3, NULL, NULL, 'b');
-  // setNode(&node1, NULL, NULL, 'b');
-  // setNode(&node6, &node5, &node7, 'r');
-  // setNode(&node2, &node1, &node3, 'r');
-  // setNode(&node4, &node2, &node6, 'b');
-  // Node *root = &node4;
+void test_delRedBlackTree_remove_7_from_tree_without_rotate_with_root_2_3_1_6_5_4(void){
+  CEXCEPTION_T err;
+  setNode(&node7, NULL, NULL, 'b');
+  setNode(&node5, NULL, NULL, 'b');
+  setNode(&node3, NULL, NULL, 'b');
+  setNode(&node1, NULL, NULL, 'b');
+  setNode(&node6, &node5, &node7, 'r');
+  setNode(&node2, &node1, &node3, 'r');
+  setNode(&node4, &node2, &node6, 'b');
+  Node *root = &node4;
   
-  // delRedBlackTree(&root, &node7);
-  // TEST_ASSERT_EQUAL_PTR(root, &node4);
-  // TEST_ASSERT_EQUAL_NODE(&node2, &node6, 'b', &node4);
-  // TEST_ASSERT_EQUAL_NODE(&node1, &node3, 'r', &node2);
+  delRedBlackTree(&root, &node7);
+  TEST_ASSERT_EQUAL_PTR(root, &node4);
+  TEST_ASSERT_EQUAL_NODE(&node2, &node6, 'b', &node4);
+  TEST_ASSERT_EQUAL_NODE(&node1, &node3, 'r', &node2);
+  TEST_ASSERT_EQUAL_NODE(&node5, NULL, 'b', &node6);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node3);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node1);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node5);
+
+}
+
+/** 7-node case
+ *        root
+ *        /       remove 25        	root
+ *       v        -------->       	/
+ *      3(b)                   	   v
+ *     /                          1(b)
+ *   1(r)                  
+ *
+ *
+ *
+ */
+void test_delRedBlackTree_removeNextLargerSuccessor_24_from_tree_18b_12r_24r_10b_13b_20b_25b(void){
+  CEXCEPTION_T err;
+  setNode(&node3, &node1, NULL, 'b');
+  setNode(&node1, NULL, NULL, 'r');
+  Node *root = &node3;
+  
+  delRedBlackTree(&root, &node3);
+  TEST_ASSERT_EQUAL_PTR(root, &node1);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node1);
+
+}
+
+// /** 7-node case
+ // *        root
+ // *        /       remove 25        	root
+ // *       v        -------->       	/
+ // *      18(b)                   	   v
+ // *     /    \                      18(b)
+ // *   12(b)  	24(b)                 /    \
+ // *  /   \    /    \              12(b)  	25(b)
+ // *10(b)13(b)20(b)  25(b)         /  \   	 /
+ // *                            10(b) 13(b)20(r)
+ // *
+ // *
+ // *
+ // */
+// void test_delRedBlackTree_removeNextLargerSuccessor_24_from_tree_18b_12r_24r_10b_13b_20b_25b(void){
+  // CEXCEPTION_T err;
+  // setNode(&node24, &node20, &node25, 'b');
+  // setNode(&node10, NULL, NULL, 'b');
+  // setNode(&node13, NULL, NULL, 'b');
+  // setNode(&node20, NULL, NULL, 'b');
+  // setNode(&node25, NULL, NULL, 'b');
+  // setNode(&node12, &node10, &node13, 'b');
+  // setNode(&node18, &node12, &node24, 'b');
+  // Node *root = &node18;
+  
+  // delRedBlackTree(&root, &node24);
+  // TEST_ASSERT_EQUAL_PTR(root, &node18);
+  // TEST_ASSERT_EQUAL_NODE(&node12, &node25, 'b', &node18);
+  // TEST_ASSERT_EQUAL_NODE(&node10, &node13, 'b', &node12);
   // TEST_ASSERT_EQUAL_NODE(&node5, NULL, 'b', &node6);
-  // TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node3);
-  // TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node1);
-  // TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node5);
+  // TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node10);
+  // TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node13);
+  // TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node20);
+  // TEST_ASSERT_EQUAL_NODE(&node20, NULL, 'b', &node25);
 
 // }
 

@@ -70,22 +70,28 @@ Node *delRedBlackTree(Node **rootPtr, Node *delNode){
 }
 
 Node *_delRedBlackTree(Node **rootPtr, Node *delNode){
-  Node *node;
+  Node *node, *rightTemp, *leftTemp, *temp;
   
   if((*rootPtr) == NULL){
     Throw(ERR_NODE_UNAVAILABLE);
   }else if((*rootPtr)->data == delNode->data){
-    (*rootPtr) = NULL;
-    return node;
+    if((*rootPtr)->left != NULL && (*rootPtr)->right == NULL){
+      printf("aa");
+      leftTemp = (*rootPtr)->left;
+      rightTemp = (*rootPtr)->right->left;
+      (*rootPtr) = removeNextLargerSuccessor(rootPtr);
+      (*rootPtr)->left = leftTemp;
+      (*rootPtr)->right = rightTemp;
+    }else{
+      (*rootPtr) = NULL;
+      return node;
+    }
   }else if((*rootPtr)->data > delNode->data){
     node = _delRedBlackTree(&(*rootPtr)->left, delNode);
   }else if((*rootPtr)->data < delNode->data){
     node = _delRedBlackTree(&(*rootPtr)->right, delNode);
   }
-  
-  // if(isRed(&node))
-    // return node;
-    
+
   //LeftCase
   if(isDoubleBlack((&(*rootPtr)->left), delNode)){
     if(isRed(&(*rootPtr)->right->left) || isRed(&(*rootPtr)->right->right)){
@@ -140,6 +146,18 @@ Node *removeNextLargerSuccessor(Node **parentPtr){
       isLeftCase2(parentPtr, removeNode);
     }else if(isRed(&(*parentPtr)->right)){
       isLeftCase3(parentPtr, removeNode);
+    }
+  }
+  
+  //RightCase
+  if(isDoubleBlack((&(*parentPtr)->right), removeNode)){
+    if(isRed(&(*parentPtr)->left->right) || isRed(&(*parentPtr)->left->left)){
+      isRightCase1(parentPtr);
+    }else if(isBlack(&(*parentPtr)->left) && isBlack(&(*parentPtr)->left->right) && 
+      isBlack(&(*parentPtr)->left->left)){
+      isRightCase2(parentPtr, removeNode);
+    }else if(isRed(&(*parentPtr)->left)){
+      isRightCase3(parentPtr, removeNode);
     }
   }
   
