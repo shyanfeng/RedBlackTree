@@ -92,7 +92,7 @@ Node *_delRedBlackTree(Node **rootPtr, Node *delNode){
       isLeftCase1(rootPtr);
     }else if(isBlack(&(*rootPtr)->right) && isBlack(&(*rootPtr)->right->left) && 
     isBlack(&(*rootPtr)->right->right)){
-      isLeftCase2(rootPtr);
+      isLeftCase2(rootPtr, delNode);
     }else if(isRed(&(*rootPtr)->right)){
       isLeftCase3(rootPtr, delNode);
     }
@@ -104,7 +104,7 @@ Node *_delRedBlackTree(Node **rootPtr, Node *delNode){
       isRightCase1(rootPtr);
     }else if(isBlack(&(*rootPtr)->left) && isBlack(&(*rootPtr)->left->right) && 
       isBlack(&(*rootPtr)->left->left)){
-      isRightCase2(rootPtr);
+      isRightCase2(rootPtr, delNode);
     }else if(isRed(&(*rootPtr)->left)){
       isRightCase3(rootPtr, delNode);
     }
@@ -131,15 +131,15 @@ Node *removeNextLargerSuccessor(Node **parentPtr){
     return removeNode;
   }
   
-  //RightCase
-  if(isDoubleBlack((&(*parentPtr)->right), removeNode)){
-    if(isRed(&(*parentPtr)->left->right) || isRed(&(*parentPtr)->left->left)){
-      isRightCase1(parentPtr);
-    }else if(isBlack(&(*parentPtr)->left) && isBlack(&(*parentPtr)->left->right) && 
-      isBlack(&(*parentPtr)->left->left)){
-      isRightCase2(parentPtr);
-    }else if(isRed(&(*parentPtr)->left)){
-      isRightCase3(parentPtr, removeNode);
+  //LeftCase
+  if(isDoubleBlack((&(*parentPtr)->left), removeNode)){
+    if(isRed(&(*parentPtr)->right->left) || isRed(&(*parentPtr)->right->right)){
+      isLeftCase1(parentPtr);
+    }else if(isBlack(&(*parentPtr)->right) && isBlack(&(*parentPtr)->right->left) && 
+    isBlack(&(*parentPtr)->right->right)){
+      isLeftCase2(parentPtr, removeNode);
+    }else if(isRed(&(*parentPtr)->right)){
+      isLeftCase3(parentPtr, removeNode);
     }
   }
   
@@ -157,7 +157,7 @@ void isLeftCase3(Node **rootPtr, Node *removeNode){
   
   if(isDoubleBlack(&(*rootPtr)->left->left, removeNode) && isBlack(&(*rootPtr)->left->right)){
     if(isBlack(&(*rootPtr)->left->right->right) &&isBlack(&(*rootPtr)->left->right->left))
-    isLeftCase2(&(*rootPtr)->left);
+    isLeftCase2(&(*rootPtr)->left, removeNode);
     else if(isRed(&(*rootPtr)->left->right->right) || isRed(&(*rootPtr)->left->right->left))
     isLeftCase1(&(*rootPtr)->left);
   }
@@ -165,13 +165,19 @@ void isLeftCase3(Node **rootPtr, Node *removeNode){
 
 }
 
-void isLeftCase2(Node **rootPtr){
+void isLeftCase2(Node **rootPtr, Node *removeNode){
   if(isBlack(&(*rootPtr)) && isBlack(&(*rootPtr)->right)){
     (*rootPtr)->color = 'd';
     (*rootPtr)->right->color = 'r';
+	if(isDoubleBlack(&(*rootPtr)->left, removeNode) && (*rootPtr)->left != NULL){
+		(*rootPtr)->left->color = 'b';
+	}
   }else if(isRed(&(*rootPtr))){
     (*rootPtr)->color = 'b';
     (*rootPtr)->right->color = 'r';
+	if(isDoubleBlack(&(*rootPtr)->left, removeNode) && (*rootPtr)->left != NULL){
+		(*rootPtr)->left->color = 'd';
+	}
   }
 }
 
@@ -197,7 +203,7 @@ void isRightCase3(Node **rootPtr, Node *removeNode){
   
   if(isDoubleBlack(&(*rootPtr)->right->right, removeNode) && isBlack(&(*rootPtr)->right->left)){
     if(isBlack(&(*rootPtr)->right->left->left) &&isBlack(&(*rootPtr)->right->left->right))
-    isRightCase2(&(*rootPtr)->right);
+    isRightCase2(&(*rootPtr)->right, removeNode);
     else if(isRed(&(*rootPtr)->right->left->left) || isRed(&(*rootPtr)->right->left->right))
     isRightCase1(&(*rootPtr)->right);
   }
@@ -205,13 +211,19 @@ void isRightCase3(Node **rootPtr, Node *removeNode){
 
 }
 
-void isRightCase2(Node **rootPtr){
+void isRightCase2(Node **rootPtr, Node *removeNode){
   if(isBlack(&(*rootPtr)) && isBlack(&(*rootPtr)->left)){
     (*rootPtr)->color = 'd';
     (*rootPtr)->left->color = 'r';
+	if(isDoubleBlack(&(*rootPtr)->right, removeNode) && (*rootPtr)->right != NULL){
+		(*rootPtr)->left->color = 'b';
+	}
   }else if(isRed(&(*rootPtr))){
     (*rootPtr)->color = 'b';
     (*rootPtr)->left->color = 'r';
+	if(isDoubleBlack(&(*rootPtr)->right, removeNode) && (*rootPtr)->right != NULL){
+		(*rootPtr)->left->color = 'd';
+	}
   }
 }
 

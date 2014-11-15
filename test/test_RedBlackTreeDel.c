@@ -493,7 +493,7 @@ void test_removeNextLargerSuccessor_with_1b_12b_5b_18b_1b_7b_13b_19b_2r_should_r
  *          root
  *          /     successor 1     root             
  *        v      -------->       /            
- *       12(b)                  12(b)           
+ *       12(b)                  12(d)           
  *      /   \                  /      \
  *    5(b)   18(b)           5(b)     18(r)
  *    /  \    /   \           \      /    \
@@ -513,9 +513,9 @@ void test_removeNextLargerSuccessor_with_1b_12b_5b_18b_1b_7b_13b_19b_should_retu
   
   removedNode = removeNextLargerSuccessor(&parent);
   TEST_ASSERT_EQUAL_PTR(&node1, removedNode);
-  TEST_ASSERT_EQUAL_NODE(&node5, &node18, 'b', &node12);
+  TEST_ASSERT_EQUAL_NODE(&node5, &node18, 'd', &node12);
   TEST_ASSERT_EQUAL_NODE(NULL, &node7, 'b', &node5);
-  //TEST_ASSERT_EQUAL_NODE(&node13, &node19, 'r', &node18);
+  TEST_ASSERT_EQUAL_NODE(&node13, &node19, 'r', &node18);
   TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node13);
   TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node19);
   TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node7);

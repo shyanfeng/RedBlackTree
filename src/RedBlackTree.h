@@ -11,11 +11,11 @@ Node *_delRedBlackTree(Node **rootPtr, Node *delNode);
 Node *removeNextLargerSuccessor(Node **parentPtr);
 
 void isLeftCase1(Node **rootPtr);
-void isLeftCase2(Node **rootPtr);
+void isLeftCase2(Node **rootPtr, Node *removeNode);
 void isLeftCase3(Node **rootPtr, Node *removeNode);
 
 void isRightCase1(Node **rootPtr);
-void isRightCase2(Node **rootPtr);
+void isRightCase2(Node **rootPtr, Node *removeNode);
 void isRightCase3(Node **rootPtr, Node *removeNode);
 
 int isRed(Node **rootPtr);
