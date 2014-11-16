@@ -81,8 +81,9 @@ Node *_delRedBlackTree(Node **rootPtr, Node *delNode){
       removeSuccessor = removeNextLargerSuccessor(&(*rootPtr)->right);
       (*rootPtr) = rightTemp;
       (*rootPtr)->left = leftTemp;
-      (*rootPtr)->left->color = 'r';
-      printf("%d", (*rootPtr)->data);
+      restructureRedBlackTree(rootPtr, delNode);
+      printf("%d\n", (*rootPtr)->data);
+      printf("%d", (*rootPtr)->left->data);
     }else if((*rootPtr)->left != NULL){
       rightRotate(rootPtr);
       removeSuccessor = removeNextLargerSuccessor(&(*rootPtr)->right);
@@ -125,7 +126,6 @@ Node *_delRedBlackTree(Node **rootPtr, Node *delNode){
   return node;
 }
 
-
 Node *removeNextLargerSuccessor(Node **parentPtr){
   Node *removeNode;
  
@@ -143,6 +143,12 @@ Node *removeNextLargerSuccessor(Node **parentPtr){
     return removeNode;
   }
   
+  restructureRedBlackTree(parentPtr, removeNode);
+  
+  return removeNode;
+}
+
+void restructureRedBlackTree(Node **parentPtr, Node *removeNode){
   //LeftCase
   if(isDoubleBlack((&(*parentPtr)->left), removeNode)){
     if(isRed(&(*parentPtr)->right->left) || isRed(&(*parentPtr)->right->right)){
@@ -166,10 +172,7 @@ Node *removeNextLargerSuccessor(Node **parentPtr){
       isRightCase3(parentPtr, removeNode);
     }
   }
-  
-  return removeNode;
 }
-
 
 void isLeftCase3(Node **rootPtr, Node *removeNode){
   if(isRed(&(*rootPtr)->right)){

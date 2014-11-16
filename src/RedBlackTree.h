@@ -9,6 +9,7 @@ Node *delRedBlackTree(Node **rootPtr, Node *delNode);
 Node *_delRedBlackTree(Node **rootPtr, Node *delNode);
 
 Node *removeNextLargerSuccessor(Node **parentPtr);
+void restructureRedBlackTree(Node **rootPtr, Node *removeNode);
 
 void isLeftCase1(Node **rootPtr);
 void isLeftCase2(Node **rootPtr, Node *removeNode);
