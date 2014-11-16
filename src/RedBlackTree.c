@@ -70,22 +70,28 @@ Node *delRedBlackTree(Node **rootPtr, Node *delNode){
 }
 
 Node *_delRedBlackTree(Node **rootPtr, Node *delNode){
-  Node *node, *rightTemp, *leftTemp, *temp;
+  Node *node, *rightTemp, *leftTemp, *temp, *removeSuccessor;
   
   if((*rootPtr) == NULL){
     Throw(ERR_NODE_UNAVAILABLE);
   }else if((*rootPtr)->data == delNode->data){
-    if((*rootPtr)->left != NULL && (*rootPtr)->right == NULL){
-      printf("aa");
-      leftTemp = (*rootPtr)->left;
-      rightTemp = (*rootPtr)->right->left;
-      (*rootPtr) = removeNextLargerSuccessor(rootPtr);
+    leftTemp = (*rootPtr)->left;
+    rightTemp = (*rootPtr)->right;
+    if((*rootPtr)->right != NULL){
+      removeSuccessor = removeNextLargerSuccessor(&(*rootPtr)->right);
+      (*rootPtr) = rightTemp;
       (*rootPtr)->left = leftTemp;
-      (*rootPtr)->right = rightTemp;
+      (*rootPtr)->left->color = 'r';
+      printf("%d", (*rootPtr)->data);
+    }else if((*rootPtr)->left != NULL){
+      rightRotate(rootPtr);
+      removeSuccessor = removeNextLargerSuccessor(&(*rootPtr)->right);
+      //(*rootPtr)->color = 'b';
+      printf("%d", (*rootPtr)->data);
     }else{
       (*rootPtr) = NULL;
-      return node;
     }
+    return node;
   }else if((*rootPtr)->data > delNode->data){
     node = _delRedBlackTree(&(*rootPtr)->left, delNode);
   }else if((*rootPtr)->data < delNode->data){
