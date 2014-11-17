@@ -8,8 +8,8 @@
 #include "ErrorCode.h"
 #include "CException.h"
 
-Node node1, node2, node3, node4, node5, node6, node7, 
-node8, node10, node12, node13,node18, node19, node20, node24, node25;
+Node node1, node2, node3, node4, node5, node6, node7, node8, node10, node11, node12, 
+node13,node18, node19, node20, node24, node25, node26, node28, node29, node30;
 
 void setUp(void){
 	resetNode(&node1, 1);
@@ -21,6 +21,7 @@ void setUp(void){
 	resetNode(&node7, 7);
 	resetNode(&node8, 8);
 	resetNode(&node10, 10);
+	resetNode(&node11, 11);
 	resetNode(&node12, 12);
 	resetNode(&node13, 13);
 	resetNode(&node18, 18);
@@ -28,6 +29,10 @@ void setUp(void){
 	resetNode(&node20, 20);
 	resetNode(&node24, 24);
 	resetNode(&node25, 25);
+	resetNode(&node26, 26);
+	resetNode(&node28, 28);
+	resetNode(&node29, 29);
+	resetNode(&node30, 30);
 }
 
 void tearDown(void){}
@@ -1004,5 +1009,86 @@ void test_delRedBlackTree_case2b_removeNextLargerSuccessor_24_from_tree_18b_12r_
   TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node10);
   TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node13);
   TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node20);
+
+}
+
+/** 9-node case
+ *        root
+ *        /       remove 24        	root
+ *       v        -------->       	/
+ *      18(b)                   	   v
+ *     /    \                        18(b)
+ *   12(b)  	24(b)                 /     \
+ *  /   \    /    \              12(b)  	 26(b)
+ *10(b)13(b)20(b)  30(b)         /  \   	 /    \
+ *                 /          10(b) 13(b)20(b)  30(b)
+ *               28(b)                          /
+ *               /                            28(b)
+ *             26(r)                          
+ *                      
+ *
+ */
+void test_delRedBlackTree_case1a_removeNextLargerSuccessor_24_from_tree_18b_12r_24b_10b_13b_20b_26r_28b_30b(void){
+  CEXCEPTION_T err;
+  setNode(&node24, &node20, &node30, 'b');
+  setNode(&node10, NULL, NULL, 'b');
+  setNode(&node13, NULL, NULL, 'b');
+  setNode(&node20, NULL, NULL, 'b');
+  setNode(&node26, NULL, NULL, 'r');
+  setNode(&node28, &node26, NULL, 'b');
+  setNode(&node30, &node28, NULL, 'b');
+  setNode(&node12, &node10, &node13, 'b');
+  setNode(&node18, &node12, &node24, 'b');
+  Node *root = &node18;
+  
+  delRedBlackTree(&root, &node24);
+  TEST_ASSERT_EQUAL_PTR(root, &node18);
+  TEST_ASSERT_EQUAL_NODE(&node12, &node26, 'b', &node18);
+  TEST_ASSERT_EQUAL_NODE(&node10, &node13, 'b', &node12);
+  TEST_ASSERT_EQUAL_NODE(&node20, &node30, 'b', &node26);
+  TEST_ASSERT_EQUAL_NODE(&node28, NULL, 'b', &node30);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node10);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node13);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node20);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node28);
+
+}
+
+/** 8-node case
+ *        root
+ *        /       remove 10        	root
+ *       v        -------->       	/
+ *      18(b)                   	   v
+ *     /    \                        18(b)
+ *   12(b)  	24(b)                 /     \
+ *  /   \    /    \              12(b)  	 24(b)
+ *10(b)13(b)20(b)  30(b)         /  \   	 /    \
+ *  \                         11(b) 13(b)20(b)  30(b)
+ *   11(r)                           
+ *                      
+ *
+ */
+void test_delRedBlackTree_case1b_removeNextLargerSuccessor_10_from_tree_18b_12r_24b_10b_13b_20b_11b_30b(void){
+  CEXCEPTION_T err;
+  setNode(&node10, NULL, &node11, 'b');
+  setNode(&node24, &node20, &node30, 'b');
+  setNode(&node13, NULL, NULL, 'b');
+  setNode(&node20, NULL, NULL, 'b');
+  setNode(&node11, NULL, NULL, 'r');
+  setNode(&node30, NULL, NULL, 'b');
+  setNode(&node12, &node10, &node13, 'b');
+  setNode(&node18, &node12, &node24, 'b');
+  Node *root = &node18;
+  
+  delRedBlackTree(&root, &node10);
+  TEST_ASSERT_EQUAL_PTR(root, &node18);
+  TEST_ASSERT_EQUAL_NODE(&node12, &node24, 'b', &node18);
+  TEST_ASSERT_EQUAL_NODE(&node11, &node13, 'b', &node12);
+  TEST_ASSERT_EQUAL_NODE(&node20, &node30, 'b', &node24);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node30);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node11);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node13);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node20);
+
 
 }
