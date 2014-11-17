@@ -71,24 +71,28 @@ Node *delRedBlackTree(Node **rootPtr, Node *delNode){
 
 Node *_delRedBlackTree(Node **rootPtr, Node *delNode){
   Node *node, *rightTemp, *leftTemp, *temp, *removeSuccessor;
+  char tempColor;
   
   if((*rootPtr) == NULL){
     Throw(ERR_NODE_UNAVAILABLE);
   }else if((*rootPtr)->data == delNode->data){
-    leftTemp = (*rootPtr)->left;
-    rightTemp = (*rootPtr)->right;
     if((*rootPtr)->right != NULL){
       removeSuccessor = removeNextLargerSuccessor(&(*rootPtr)->right);
-      (*rootPtr) = rightTemp;
+      leftTemp = (*rootPtr)->left;
+      rightTemp = (*rootPtr)->right;
+      tempColor = (*rootPtr)->color;
+      (*rootPtr) = removeSuccessor;
       (*rootPtr)->left = leftTemp;
-      restructureRedBlackTree(rootPtr, delNode);
-      printf("%d\n", (*rootPtr)->data);
-      printf("%d", (*rootPtr)->left->data);
+      (*rootPtr)->right = rightTemp;
+      //printf("%c", (*rootPtr)->color);
+      restructureRedBlackTree(rootPtr, removeSuccessor);
+      (*rootPtr)->color = tempColor;
+      //printf("%d\n", (*rootPtr)->data);
     }else if((*rootPtr)->left != NULL){
       rightRotate(rootPtr);
       removeSuccessor = removeNextLargerSuccessor(&(*rootPtr)->right);
       //(*rootPtr)->color = 'b';
-      printf("%d", (*rootPtr)->data);
+      //printf("%d", (*rootPtr)->data);
     }else{
       (*rootPtr) = NULL;
     }
