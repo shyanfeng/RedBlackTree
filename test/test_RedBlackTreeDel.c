@@ -1092,3 +1092,28 @@ void test_delRedBlackTree_case1b_removeNextLargerSuccessor_10_from_tree_18b_12r_
 
 
 }
+
+/** 4-node case
+ *       root              root
+ *       /    remove 20    /
+ *       v   ------->      v
+ *      10(b)             10(b)
+ *     /   \              /   \             10(b)
+ *   5(b)  20(b)        5(b) 30(r)     =>   /   \
+ *           \                            5(b)  30(b)
+ *           30(r)                 
+ */
+void test_delRedBlackTree_case1a_removeNextLargerSuccessor_20_from_tree_10b_5b_20b_30r(void){
+  setNode(&node20, NULL, &node30, 'b');
+  setNode(&node5, NULL, NULL, 'b');
+  setNode(&node30, NULL, NULL, 'r');
+  setNode(&node10, &node5, &node20, 'b');
+  Node *root = &node10;
+  
+  delRedBlackTree(&root, &node20);
+  TEST_ASSERT_EQUAL_PTR(root, &node10);
+  TEST_ASSERT_EQUAL_NODE(&node5, &node30, 'b', &node10);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node5);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node30);
+
+}
