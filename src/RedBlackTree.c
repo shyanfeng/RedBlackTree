@@ -87,8 +87,17 @@ Node *_delRedBlackTree(Node **rootPtr, Node *delNode){
       restructureRedBlackTree(rootPtr, removeSuccessor);
       (*rootPtr)->color = tempColor;
     }else if((*rootPtr)->left != NULL){
-      rightRotate(rootPtr);
-      removeSuccessor = removeNextLargerSuccessor(&(*rootPtr)->right);
+      //rightRotate(rootPtr);
+      //removeSuccessor = removeNextLargerSuccessor(&(*rootPtr)->right);
+      removeSuccessor = removeNextLargerSuccessor(&(*rootPtr)->left);
+      leftTemp = (*rootPtr)->left;
+      rightTemp = (*rootPtr)->right;
+      tempColor = (*rootPtr)->color;
+      (*rootPtr) = removeSuccessor;
+      (*rootPtr)->left = leftTemp;
+      (*rootPtr)->right = rightTemp;
+      restructureRedBlackTree(rootPtr, removeSuccessor);
+      (*rootPtr)->color = tempColor;
     }else{
       (*rootPtr) = NULL;
     }

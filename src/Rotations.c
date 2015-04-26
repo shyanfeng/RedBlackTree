@@ -3,31 +3,30 @@
 #include "Node.h"
 
 void rightRotate(Node **nodePtr){
-    Node *newNode = (*nodePtr)->left;
-    Node *storeNode = newNode->right;
+  Node *newNode = (*nodePtr)->left;
+  Node *storeNode = newNode->right;
     
-    newNode->right = NULL;
-    newNode->right = *nodePtr;
-    newNode->right->left = storeNode;
-    *nodePtr = newNode;
+  newNode->right = *nodePtr;
+  newNode->right->left = storeNode;
+  *nodePtr = newNode;
 }
 
 void leftRotate(Node **nodePtr){
-    Node *newNode = (*nodePtr)->right;
-    Node *storeNode = newNode->left;
+  Node *newNode = (*nodePtr)->right;
+  Node *storeNode = newNode->left;
     
-    newNode->left = NULL;
-    newNode->left = *nodePtr;
-    newNode->left->right = storeNode;
-    *nodePtr = newNode;
+  newNode->left = NULL;
+  newNode->left = *nodePtr;
+  newNode->left->right = storeNode;
+  *nodePtr = newNode;
 }
 
 void leftRightRotate(Node **nodePtr){
-    leftRotate(&(*nodePtr)->left);
-    rightRotate(*(&nodePtr));
+  leftRotate(&(*nodePtr)->left);
+  rightRotate(*(&nodePtr));
 }
 
 void rightLeftRotate(Node **nodePtr){
-    rightRotate(&(*nodePtr)->right);
-    leftRotate(*(&nodePtr));
+  rightRotate(&(*nodePtr)->right);
+  leftRotate(*(&nodePtr));
 }

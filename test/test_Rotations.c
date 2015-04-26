@@ -34,14 +34,14 @@ void setUp(void){
 void tearDown(void){}
 
 /**
-  *				 root
-  *				  /			root
-  *				 v			  /
-  *				10			 v
-  *			   /			5
-  *			  5		--->   /  \
-  *			 /			  1   10
-  *			1
+  *				  root
+  *				   /			    root
+  *				  v			      /
+  *				10			     v
+  *			  /			      5
+  *			 5		--->   /  \
+  *			/			      1   10
+  *		 1
   *
   *
   */
@@ -65,14 +65,14 @@ void test_right_rotate_3_elements(void){
 
 /**
   *				 root
-  *				  /		    	root
-  *				 v		    	  /
-  *				10		    	 v
-  *			   /  \		    	5
-  *			  5	  12    --->   /  \
-  *			 /		    	  1   10
-  *			1                       \
-  *                                 12
+  *				  /		    	      root
+  *				 v		    	       /
+  *				10		    	      v
+  *			 /  \		    	     5
+  *			5	  12    --->    /  \
+  *		 /		    	       1   10
+  *		1                        \
+  *                            12
   *
   */
 void test_right_rotate_4_elements(void){
@@ -98,14 +98,14 @@ void test_right_rotate_4_elements(void){
 
 /**
   *				 root
-  *				  /		    	root
-  *				 v		    	  /
-  *				10		    	 v
-  *			   /  \		    	5
-  *			  5	  12    --->   /  \
-  *			 / \	    	  1   10
-  *			1   7                /  \
-  *                             7   12
+  *				  /		    	      root
+  *				 v		    	      /
+  *				10		    	     v
+  *			 /  \		    	    5
+  *			5	  12    --->   /  \
+  *		 / \	    	      1   10
+  *	  1   7                 /  \
+  *                        7   12
   *
   */
 void test_right_rotate_5_elements(void){
@@ -134,13 +134,13 @@ void test_right_rotate_5_elements(void){
 
 /**
   *		 root
-  *		  /			    root
-  *		 v			      /
-  *		5			     v
+  *		  /			        root
+  *		 v			        /
+  *		5			         v
   *		  \		        7
   *		   7	--->   /  \
-  *			\		  5   10
-  *			 10
+  *			  \		    5   10
+  *			   10
   *
   *
   */
@@ -163,15 +163,15 @@ void test_left_rotate_3_elements(void){
 }
 
 /**
-  *		 root
-  *		  /			    root
-  *		 v			      /
-  *		5			     v
-  *	   /  \		        7
-  *	  1    7	--->   /  \
-  *			\		  5   10
-  *			 10      /
-  *                 1
+  *		  root
+  *		   /			        root
+  *		  v			          /
+  *		 5			         v
+  *	  /  \		        7
+  *	 1    7	  --->   /  \
+  *			   \		    5   10
+  *			    10     /
+  *               1
   *
   */
 void test_left_rotate_4_elements(void){
@@ -196,15 +196,15 @@ void test_left_rotate_4_elements(void){
 }
 
 /**
-  *		 root
-  *		  /			    root
-  *		 v			      /
-  *		5			     v
+  *		    root
+  *		     /			      root
+  *		    v			        /
+  *		   5			       v
   *	   /  \		        10
   *	  1    10	--->   /  \
-  *		  /	\		  5   12
-  *		 7	 12      / \
-  *                 1   7
+  *		    /  \		  5   12
+  *		   7	 12    / \
+  *               1   7
   *
   */
 void test_left_rotate_5_elements(void){
@@ -236,11 +236,11 @@ void test_left_rotate_5_elements(void){
   *				  /		    	root
   *				 v		    	  /                   root
   *				10		    	 v                      /
-  *			   /  		    	10                     v
-  *			  5	        --->   /        --->          7
-  *			   \	    	  7                      / \
-  *			    7            /                      5   10
-  *                         5
+  *			   /  		    10                     v
+  *			  5	   --->   /        --->          7
+  *			   \	    	 7                      / \
+  *			    7       /                      5   10
+  *                5
   *
   *
   */
@@ -267,13 +267,13 @@ void test_leftRightRotate_rotate_3_elements(void){
   *				  /		    	root
   *				 v		    	  /                   root
   *				10		    	 v                      /
-  *			   /  		    	10                     v
-  *			  5	        --->   /        --->          7
-  *			 /  \	    	  7                      / \
-  *			1    7           /                      5   10
-  *                         5                      /
-  *                        /                      1
-  *                       1
+  *			  /  		    	10                     v
+  *			 5	  --->   /        --->          7
+  *			/  \	    	7                      / \
+  *		1    7       /                      5   10
+  *               5                      /
+  *              /                      1
+  *             1
   *
   *
   */
@@ -300,16 +300,16 @@ void test_leftRightRotate_rotate_4_elements(void){
 
 /**
   *				 root
-  *				  /		    	root
-  *				 v		    	  /                   root
-  *				10		    	 v                      /
-  *			   /  \		    	10                     v
-  *			  5	    15  --->   /  \     --->          7
-  *			 /  \	    	  7    15                /  \
-  *			1    7           /  \                   5    10
-  *               \         5    8                 /    /  \
-  *                8       /                      1    8    15
-  *                       1
+  *				  /		    	    root
+  *				 v		    	    /                   root
+  *				10		    	   v                      /
+  *			 /  \		    	  10                     v
+  *		 5	   15  --->  /  \     --->          7
+  *		/  \	    	    7    15                /  \
+  *	 1    7          /  \                   5    10
+  *        \        5    8                 /    /  \
+  *         8      /                      1    8    15
+  *               1
   *
   *
   *
@@ -345,19 +345,16 @@ void test_leftRightRotate_rotate_6_elements_with_left_grand_right_child(void){
 
 /**
   *				 root
-  *				  /		    	root
-  *				 v		    	  /                   root
-  *				10		    	 v                      /
-  *			   /  \		    	10                     v
-  *			  5	    15  --->   /  \     --->          7
-  *			 /  \	    	  7    15                /  \
-  *			1    7           /                      5    10
-  *             /           5                      /  \    \
-  *            6           /  \                   1    6    15
-  *                       1    6
-  *
-  *
-  *
+  *				  /		    	    root
+  *				 v		    	    /                   root
+  *				10		    	   v                      /
+  *			 /  \		    	  10                     v
+  *			5	   15  --->  /  \     --->          7
+  *		/  \	    	    7    15                /  \
+  *	 1    7          /                      5    10
+  *      /          5                      /  \    \
+  *    6          /  \                   1    6    15
+  *              1    6
   *
   *
   */
@@ -390,14 +387,14 @@ void test_leftRightRotate_rotate_6_elements_with_left_grand_left_child(void){
 
 /**
   *				 root
-  *				  /		    	root
-  *				 v		    	  /                     root
-  *				5		    	 v                        /
-  *			      \  	    	5                        v
-  *			       10    --->     \       --->          7
-  *			   	  /	               7                   / \
-  *			    7                   \                 5   10
-  *                                  10
+  *				  /		    	      root
+  *				 v		    	      /                     root
+  *				5		    	       v                        /
+  *			   \  	    	    5                        v
+  *			    10    --->     \       --->          7
+  *			   /	              7                   / \
+  *			  7                  \                 5   10
+  *                           10
   *
   *
   */
@@ -425,12 +422,12 @@ void test_rightLeftRotate_rotate_3_elements(void){
   *			  v		    	      /                   root
   *			 5		        	 v                      /
   *			  \  		         5                      v
-  *			   10	    --->      \     --->           8
-  *			  /  \	    	       8                  / \
-  *			 8    12                \                5   10
-  *                                  10                    \
-  *                                   \                    12
-  *                                    12
+  *			   10	    --->    \     --->           8
+  *			  /  \	    	     8                  / \
+  *			 8    12            \                5   10
+  *                         10                    \
+  *                           \                    12
+  *                            12
   *
   *
   */
@@ -457,19 +454,16 @@ void test_rightLeftRotate_rotate_4_elements(void){
 
 /**
   *				 root
-  *				  /		    	root
-  *				 v		    	  /                   root
-  *				5		    	 v                      /
-  *			   /  \		    	5                     v
-  *			  1	   10  --->    /  \     --->          7
-  *			      /  \  	  1    7                 /  \
-  *			     7    15             \              5    10
-  *               \                   10           /    /  \
-  *                8                 /  \         1    8    15
-  *                                 8    15
-  *
-  *
-  *
+  *				  /		    	    root
+  *				 v		    	    /                     root
+  *				5		    	     v                      /
+  *			 /  \		    	  5                     v
+  *			1	   10  --->  / \     --->          7
+  *			    /  \  	  1   7                 /  \
+  *			   7    15         \              5    10
+  *         \               10           /    /  \
+  *          8             /  \         1    8    15
+  *                       8    15
   *
   *
   */
@@ -502,16 +496,16 @@ void test_rightLeftRotate_rotate_6_elements_with_left_grand_right_child(void){
 
 /**
   *				 root
-  *				  /		    	root
-  *				 v		    	  /                   root
-  *				5		    	 v                      /
-  *			   /  \		    	5                      v
-  *			  1	   10  --->    /  \     --->          8
-  *			      /	 \    	  1    8                 /  \
-  *			     8    15          /  \              5    10
-  *             /                3    10           /  \    \
-  *            3                        \         1    3    15
-  *                                      15
+  *				  /		    	    root
+  *				 v		    	    /                   root
+  *				5		    	     v                      /
+  *			 /  \		    	  5                      v
+  *		 1	   10  --->  /  \     --->          8
+  *			    /	 \    	3    8                 /  \
+  *			   8    15   /      \               5    10
+  *       /         1       10             /  \    \
+  *      3                    \           1    3    15
+  *                           15
   *
   *
   *
