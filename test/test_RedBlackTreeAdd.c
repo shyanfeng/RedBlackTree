@@ -8,22 +8,26 @@
 #include "ErrorCode.h"
 #include "CException.h"
 
-Node node1, node4, node5, node7, node10, node12, node15, node18, 
-node20, node22, node25, node30, node40, node60;
+Node node1, node2, node4, node5, node7, node10, node12, node13, node15, node18, 
+node19, node20, node22, node25, node30, node31, node40, node60;
 
 void setUp(void){
 	resetNode(&node1, 1);
+	resetNode(&node2, 2);
 	resetNode(&node4, 4);
 	resetNode(&node5, 5);
 	resetNode(&node7, 7);
 	resetNode(&node10, 10);
 	resetNode(&node12, 12);
+	resetNode(&node13, 13);
 	resetNode(&node15, 15);
 	resetNode(&node18, 18);
+	resetNode(&node19, 19);
 	resetNode(&node20, 20);
 	resetNode(&node22, 22);
 	resetNode(&node25, 25);
 	resetNode(&node30, 30);
+	resetNode(&node31, 31);
 	resetNode(&node40, 40);
 	resetNode(&node60, 60);
 	
@@ -230,7 +234,7 @@ void test_addRedBlackTree_add_12_to_the_tree_with_5_10_nodes(void){
   *         root
   *         /                  root
   *        v                   /
-  *       10(b)   add12       v
+  *       10(b)   add12(r)    v
   *           \   ------>    12(b)
   *         15(r)           /   \  
   *                       10(r) 15(r)   
@@ -510,4 +514,233 @@ void test_addRedBlackTree_add_7_should_not_rotate_and_promote_then_flip_colour(v
   TEST_ASSERT_EQUAL_NODE(NULL, &node7, 'b', &node5);
   TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node15);
   TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node7);
+}
+
+/* Failed Function Test adding 13 with sequence to be completed
+ *            root
+ *            /     add 13(b)            root
+ *          NULL      --->               /
+ *                                    13(b)
+ *
+ *
+ */
+ 
+void test_addRedBlackTree_13_with_adding_sequence(void){
+  setNode(&node13,NULL,NULL,'b');
+  Node *root = NULL;
+  
+  addRedBlackTree(&root, &node13);
+  TEST_ASSERT_EQUAL_PTR(root, &node13);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node13);
+ 
+}
+
+/* Failed Function Test adding 10 with sequence to be completed
+ *            root
+ *            /     add 10(b)            root
+ *          13(b)    --->               /
+ *                                    13(b)
+ *                                    /
+ *                                  10(r)
+ */
+ 
+void test_addRedBlackTree_10_with_adding_sequence(void){
+  setNode(&node13,NULL,NULL,'b');
+  setNode(&node10,NULL,NULL,'b');
+  Node *root = &node13;
+  
+  addRedBlackTree(&root, &node10);
+  TEST_ASSERT_EQUAL_PTR(root, &node13);
+  TEST_ASSERT_EQUAL_NODE(&node10, NULL, 'b', &node13);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node10);
+ 
+}
+
+/* Failed Function Test adding 2 with sequence to be completed
+ *            root
+ *            /     add 2(b)            root
+ *          13(b)    --->               /
+ *         /                           10(b)
+ *       10(r)                        /    \
+ *                                  2(r)  13(r)
+ */
+ 
+void test_addRedBlackTree_2_with_adding_sequence(void){
+  setNode(&node13,&node10,NULL,'b');
+  setNode(&node10,NULL,NULL,'r');
+  setNode(&node2,NULL,NULL,'b');
+  Node *root = &node13;
+  
+  addRedBlackTree(&root, &node2);
+  TEST_ASSERT_EQUAL_PTR(root, &node10);
+  TEST_ASSERT_EQUAL_NODE(&node2, &node13, 'b', &node10);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node13);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node2);
+ 
+}
+
+/* Failed Function Test adding 1 with sequence to be completed
+ *            root
+ *            /     add 1(b)            root
+ *          10(b)    --->               /
+ *         /    \                      10(b)
+ *       2(r)  13(r)                  /    \
+ *                                  2(b)   13(b)
+ *                                  /
+ *                                1(r)
+ *
+ */
+ 
+void test_addRedBlackTree_1_with_adding_sequence(void){
+  setNode(&node10,&node2,&node13,'b');
+  setNode(&node13,NULL,NULL,'r');
+  setNode(&node2,NULL,NULL,'r');
+  setNode(&node1,NULL,NULL,'b');
+  Node *root = &node10;
+  
+  addRedBlackTree(&root, &node1);
+  TEST_ASSERT_EQUAL_PTR(root, &node10);
+  TEST_ASSERT_EQUAL_NODE(&node2, &node13, 'b', &node10);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node13);
+  TEST_ASSERT_EQUAL_NODE(&node1, NULL, 'b', &node2);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node1);
+ 
+}
+
+/* Failed Function Test adding 5 with sequence to be completed
+ *            root
+ *            /     add 5(b)            root
+ *          10(b)    --->               /
+ *         /    \                      10(b)
+ *       2(b)  13(b)                  /    \
+ *       /                           2(b)   13(b)
+ *     1(r)                         /   \
+ *                                1(r)  5(r)
+ *
+ */
+ 
+void test_addRedBlackTree_5_with_adding_sequence(void){
+  setNode(&node10,&node2,&node13,'b');
+  setNode(&node13,NULL,NULL,'b');
+  setNode(&node2,&node1,NULL,'b');
+  setNode(&node1,NULL,NULL,'r');
+  setNode(&node5,NULL,NULL,'b');
+  Node *root = &node10;
+  
+  addRedBlackTree(&root, &node5);
+  TEST_ASSERT_EQUAL_PTR(root, &node10);
+  TEST_ASSERT_EQUAL_NODE(&node2, &node13, 'b', &node10);
+  TEST_ASSERT_EQUAL_NODE(&node1, &node5, 'b', &node2);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node13);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node5);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node1);
+ 
+}
+
+/* Failed Function Test adding 31 with sequence to be completed
+ *            root
+ *            /     add 31(b)            root
+ *          10(b)    --->               /
+ *         /    \                      10(b)
+ *       2(b)  13(b)                  /    \
+ *       /   \                      2(b)   13(b)
+ *     1(r)  5(r)                  /   \      \
+ *                               1(r)  5(r)   31(r)
+ *
+ */
+ 
+void test_addRedBlackTree_31_with_adding_sequence(void){
+  setNode(&node10,&node2,&node13,'b');
+  setNode(&node13,NULL,NULL,'b');
+  setNode(&node2,&node1,&node5,'b');
+  setNode(&node1,NULL,NULL,'r');
+  setNode(&node5,NULL,NULL,'r');
+  setNode(&node31,NULL,NULL,'b');
+  Node *root = &node10;
+  
+  addRedBlackTree(&root, &node31);
+  TEST_ASSERT_EQUAL_PTR(root, &node10);
+  TEST_ASSERT_EQUAL_NODE(&node2, &node13, 'b', &node10);
+  TEST_ASSERT_EQUAL_NODE(&node1, &node5, 'b', &node2);
+  TEST_ASSERT_EQUAL_NODE(NULL, &node31, 'b', &node13);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node5);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node1);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node31);
+ 
+}
+
+/* Failed Function Test adding 7 with sequence to be completed
+ *            root
+ *            /     add 7(b)            root
+ *          10(b)    --->               /
+ *         /    \                      10(b)
+ *       2(b)  13(b)                  /    \
+ *       /   \     \                2(r)   13(b)
+ *     1(r)  5(r)  31(r)           /   \      \
+ *                               1(b)  5(b)   31(r)
+ *                                        \
+ *                                        7(r)
+ *
+ *
+ */
+ 
+void test_addRedBlackTree_7_with_adding_sequence(void){
+  setNode(&node10,&node2,&node13,'b');
+  setNode(&node13,NULL,&node31,'b');
+  setNode(&node2,&node1,&node5,'b');
+  setNode(&node1,NULL,NULL,'r');
+  setNode(&node5,NULL,NULL,'r');
+  setNode(&node31,NULL,NULL,'r');
+  setNode(&node7,NULL,NULL,'b');
+  Node *root = &node10;
+  
+  addRedBlackTree(&root, &node7);
+  TEST_ASSERT_EQUAL_PTR(root, &node10);
+  TEST_ASSERT_EQUAL_NODE(&node2, &node13, 'b', &node10);
+  TEST_ASSERT_EQUAL_NODE(&node1, &node5, 'r', &node2);
+  TEST_ASSERT_EQUAL_NODE(NULL, &node31, 'b', &node13);
+  TEST_ASSERT_EQUAL_NODE(NULL, &node7, 'b', &node5);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node1);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node31);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node7);
+ 
+}
+
+/* Failed Function Test adding 19 with sequence to be completed
+ *            root
+ *            /     add 19(b)            root
+ *          10(b)    --->               /
+ *         /    \                       10(b)
+ *       2(r)  13(b)                 /         \
+ *       /   \     \               2(r)       19(r)
+ *     1(b)  5(b)  31(r)          /   \      /    \
+ *              \               1(b)  5(b) 13(b)   31(b)
+ *              7(r)                     \
+ *                                       7(r)
+ *
+ *
+ */
+ 
+void test_addRedBlackTree_19_with_adding_sequence(void){
+  setNode(&node10,&node2,&node13,'b');
+  setNode(&node13,NULL,&node31,'b');
+  setNode(&node2,&node1,&node5,'r');
+  setNode(&node1,NULL,NULL,'b');
+  setNode(&node5,NULL,&node7,'b');
+  setNode(&node31,NULL,NULL,'r');
+  setNode(&node7,NULL,NULL,'r');
+  setNode(&node19,NULL,NULL,'b');
+  Node *root = &node10;
+  
+  addRedBlackTree(&root, &node19);
+  TEST_ASSERT_EQUAL_PTR(root, &node10);
+  TEST_ASSERT_EQUAL_NODE(&node2, &node19, 'b', &node10);
+  TEST_ASSERT_EQUAL_NODE(&node1, &node5, 'r', &node2);
+  TEST_ASSERT_EQUAL_NODE(&node13, &node31, 'r', &node19);
+  TEST_ASSERT_EQUAL_NODE(NULL, &node7, 'b', &node5);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node1);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node13);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node31);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node7);
+ 
 }
