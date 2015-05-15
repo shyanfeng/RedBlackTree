@@ -190,16 +190,14 @@ void isLeftCase3(Node **rootPtr, Node *removeNode){
 void isLeftCase2(Node **rootPtr, Node *removeNode){
   if(isBlack(&(*rootPtr)) && isBlack(&(*rootPtr)->right)){
     (*rootPtr)->color = 'd';
-    (*rootPtr)->right->color = 'r';
-    // if(isDoubleBlack(&(*rootPtr)->left, removeNode) && (*rootPtr)->left != NULL){
-      // (*rootPtr)->left->color = 'b';
-    // }
+    if(isDoubleBlack(&(*rootPtr)->left, removeNode) && (*rootPtr)->left != NULL){
+      (*rootPtr)->left->color = 'b';
+    }
   }else if(isRed(&(*rootPtr))){
     (*rootPtr)->color = 'b';
-    (*rootPtr)->right->color = 'r';
-    // if((*rootPtr)->left != NULL){
-      // (*rootPtr)->left->color = 'd';
-    // }
+  }
+  if((*rootPtr)->right != NULL){
+      (*rootPtr)->right->color = 'r';
   }
 }
 
@@ -236,16 +234,15 @@ void isRightCase3(Node **rootPtr, Node *removeNode){
 void isRightCase2(Node **rootPtr, Node *removeNode){
   if(isBlack(&(*rootPtr)) && isBlack(&(*rootPtr)->left)){
     (*rootPtr)->color = 'd';
-    (*rootPtr)->left->color = 'r';
-    // if(isDoubleBlack(&(*rootPtr)->right, removeNode) && (*rootPtr)->right != NULL){
-      // (*rootPtr)->left->color = 'b';
-    // }
+    if(isDoubleBlack(&(*rootPtr)->right, removeNode) && (*rootPtr)->right != NULL){
+      (*rootPtr)->right->color = 'b';
+    }
   }else if(isRed(&(*rootPtr))){
     (*rootPtr)->color = 'b';
-    (*rootPtr)->left->color = 'r';
-    // if((*rootPtr)->right != NULL){
-      // (*rootPtr)->right->color = 'd';
-    // }
+  }
+  
+  if((*rootPtr)->left != NULL){
+      (*rootPtr)->left->color = 'r';
   }
 }
 
