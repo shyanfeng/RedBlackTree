@@ -77,32 +77,35 @@ Node *delRedBlackTree(Node **rootPtr, Node *delNode){
 }
 
 Node *_delRedBlackTree(Node **rootPtr, Node *delNode){
-  Node *node, *rightTemp, *leftTemp, *temp, *removeSuccessor;
+  Node *node, *rightTemp, *leftTemp, *temp, *removeSuccessor, tempSuccessor;
   char tempColor;
   
   if((*rootPtr) == NULL){
     Throw(ERR_NODE_UNAVAILABLE);
   }else if((*rootPtr)->data == delNode->data){
     if((*rootPtr)->right != NULL){
+      node = *rootPtr;
       removeSuccessor = removeNextLargerSuccessor(&(*rootPtr)->right);
+      tempSuccessor = *removeSuccessor;
       leftTemp = (*rootPtr)->left;
       rightTemp = (*rootPtr)->right;
       tempColor = (*rootPtr)->color;
       (*rootPtr) = removeSuccessor;
       (*rootPtr)->left = leftTemp;
       (*rootPtr)->right = rightTemp;
-      restructureRedBlackTree(rootPtr, removeSuccessor);
       (*rootPtr)->color = tempColor;
+      restructureRedBlackTree(rootPtr, &tempSuccessor);
     }else if((*rootPtr)->left != NULL){
       removeSuccessor = removeNextLargerSuccessor(&(*rootPtr)->left);
+      tempSuccessor = *removeSuccessor;
       leftTemp = (*rootPtr)->left;
       rightTemp = (*rootPtr)->right;
       tempColor = (*rootPtr)->color;
       (*rootPtr) = removeSuccessor;
       (*rootPtr)->left = leftTemp;
       (*rootPtr)->right = rightTemp;
-      restructureRedBlackTree(rootPtr, removeSuccessor);
       (*rootPtr)->color = tempColor;
+      restructureRedBlackTree(rootPtr, &tempSuccessor);
     }else{
       (*rootPtr) = NULL;
     }
@@ -188,15 +191,15 @@ void isLeftCase2(Node **rootPtr, Node *removeNode){
   if(isBlack(&(*rootPtr)) && isBlack(&(*rootPtr)->right)){
     (*rootPtr)->color = 'd';
     (*rootPtr)->right->color = 'r';
-	if(isDoubleBlack(&(*rootPtr)->left, removeNode) && (*rootPtr)->left != NULL){
-		(*rootPtr)->left->color = 'b';
-	}
+    // if(isDoubleBlack(&(*rootPtr)->left, removeNode) && (*rootPtr)->left != NULL){
+      // (*rootPtr)->left->color = 'b';
+    // }
   }else if(isRed(&(*rootPtr))){
     (*rootPtr)->color = 'b';
     (*rootPtr)->right->color = 'r';
-	if(isDoubleBlack(&(*rootPtr)->left, removeNode) && (*rootPtr)->left != NULL){
-		(*rootPtr)->left->color = 'd';
-	}
+    // if((*rootPtr)->left != NULL){
+      // (*rootPtr)->left->color = 'd';
+    // }
   }
 }
 
@@ -234,15 +237,15 @@ void isRightCase2(Node **rootPtr, Node *removeNode){
   if(isBlack(&(*rootPtr)) && isBlack(&(*rootPtr)->left)){
     (*rootPtr)->color = 'd';
     (*rootPtr)->left->color = 'r';
-    if(isDoubleBlack(&(*rootPtr)->right, removeNode) && (*rootPtr)->right != NULL){
-      (*rootPtr)->left->color = 'b';
-    }
+    // if(isDoubleBlack(&(*rootPtr)->right, removeNode) && (*rootPtr)->right != NULL){
+      // (*rootPtr)->left->color = 'b';
+    // }
   }else if(isRed(&(*rootPtr))){
     (*rootPtr)->color = 'b';
     (*rootPtr)->left->color = 'r';
-    if(isDoubleBlack(&(*rootPtr)->right, removeNode) && (*rootPtr)->right != NULL){
-      (*rootPtr)->left->color = 'd';
-    }
+    // if((*rootPtr)->right != NULL){
+      // (*rootPtr)->right->color = 'd';
+    // }
   }
 }
 
