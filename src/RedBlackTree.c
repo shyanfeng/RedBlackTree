@@ -206,7 +206,7 @@ void isLeftCase1(Node **rootPtr){
     (*rootPtr)->right->color = (*rootPtr)->color;
     leftRotate(rootPtr);
   }else if(isRed(&(*rootPtr)->right->left)){
-    (*rootPtr)->right->color = (*rootPtr)->color;
+    (*rootPtr)->right->left->color = (*rootPtr)->color;
     rightLeftRotate(rootPtr);
   }
   (*rootPtr)->left->color = 'b';
