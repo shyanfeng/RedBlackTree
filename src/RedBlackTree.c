@@ -153,6 +153,9 @@ void restructureRedBlackTree(Node **parentPtr, Node *removeNode){
       isLeftCase2(parentPtr, removeNode);
     }else if(isRed(&(*parentPtr)->right)){
       isLeftCase3(parentPtr, removeNode);
+      if((*parentPtr)->left->left != NULL && (*parentPtr)->left->left->color == 'd'){
+      (*parentPtr)->left->left->color = 'b';
+  }
     }
   }
   
@@ -165,6 +168,9 @@ void restructureRedBlackTree(Node **parentPtr, Node *removeNode){
       isRightCase2(parentPtr, removeNode);
     }else if(isRed(&(*parentPtr)->left)){
       isRightCase3(parentPtr, removeNode);
+      if((*parentPtr)->right->right != NULL && (*parentPtr)->right->right->color == 'd'){
+    (*parentPtr)->right->right->color = 'b';
+  }
     }
   }
 }
